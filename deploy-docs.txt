@@ -1,0 +1,5 @@
+sudo pm2 start npm -- start --name=podan
+sudo pm2 restart npm -- start --name=podan
+sudo pm2 ls
+sudo pm2 delete <name>
+sudo pm2 logs <name> --lines=150
