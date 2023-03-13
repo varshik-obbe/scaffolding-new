@@ -128,3 +128,33 @@ exports.get_MoverOrder = (req, res) => {
       res.status(500).json({ error: { global: 'something went wrong' } });
     });
 };
+
+exports.get_ItemsForMoveOrder = (req,res) => {
+  console.log("move order id is", req.params.id);
+  MoveOrder.findOne({ _id: req.params.id })
+  .exec()
+  .then(invoicedata => {
+    console.log(JSON.stringify(invoicedata));
+    const response = {
+      count: invoicedata.addeditemlist.length,
+      itemdata: invoicedata.addeditemlist.map(data => ({
+        id: data.id,
+        itemname: data.itemname,
+        itemdescription: data.itemdescription,
+        itemtype: data.itemtype,
+        itemuom: data.itemuom,
+        costperunit: data.costperunit,
+        itemdiscount: data.itemdiscount,
+        quantity: data.quantity,
+        totalcost: data.totalcost,
+        remarks: data.remarks
+      }))
+    };
+    console.log(response);
+    res.status(200).json({ itemlist: response });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: { global: 'something went wrong' } });
+  });
+};

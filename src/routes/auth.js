@@ -14,5 +14,7 @@ router.get("/getuserbyid",Authentication, UserController.getUserById);
 
 router.patch("/updateuser",Authentication, UserController.updateUser);
 
+router.delete("/deleteUser",Authentication, UserController.deleteUser);
+
 
 export default router;

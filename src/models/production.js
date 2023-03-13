@@ -25,6 +25,7 @@ const productionSchema = new mongoose.Schema(
       lowecase: true,
       ref: 'Customer'
     },
+    item: { type: String, lowercase: true },
     date: { type: String, lowecase: true },
     products: [product],
     transactionHistrory : {type : Array}

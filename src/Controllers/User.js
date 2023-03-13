@@ -95,3 +95,18 @@ exports.updateUser = (req,res)=>{
         res.status(400).json({error:{global:"something went wrong"}});
     })
 }
+
+exports.deleteUser = (req,res)=>{
+    const id = req.query.id;
+    console.log("id is", id)
+    User.deleteOne({_id: id.toString()}, function(err,data) {
+        if(!err) {
+            console.log("deleted data is",data)
+            res.status(200).json({success:{global:"User deleted successfully"}})
+        }
+        else {
+            console.log("error is",err)
+            res.status(400).json({error:{global:"something went wrong"}});
+        }
+    })
+}

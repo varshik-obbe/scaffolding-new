@@ -12,4 +12,6 @@ router.post(
 
 router.get('/getmoveorder', Authentication, MoveOrderController.get_MoverOrder);
 
+router.get('/getItemsMoveOrder/:id', Authentication, MoveOrderController.get_ItemsForMoveOrder);
+
 export default router;
