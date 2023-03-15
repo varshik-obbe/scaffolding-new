@@ -39,6 +39,7 @@ const orderSchema = new mongoose.Schema(
     sitecontactperson: { type: String },
     gstno: { type: String },
     pono: { type: String },
+    completed: { type: String },
     addeditemlist: [itemSchema]
   },
   { timestamps: true }

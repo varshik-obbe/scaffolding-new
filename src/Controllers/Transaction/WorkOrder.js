@@ -58,10 +58,10 @@ exports.get_Order = (req, res) => {
           distance: data.distance,
           sitecontactperson: data.sitecontactperson,
           gstno: data.gstno,
-          pono: data.pono
+          pono: data.pono,
+          completed: data.completed
         }))
       };
-      console.log(response);
       res.status(200).json({ orderlist: response });
     })
     .catch(err => {
@@ -69,3 +69,39 @@ exports.get_Order = (req, res) => {
       res.status(500).json({ error: { global: 'something went wrong' } });
     });
 };
+
+exports.update_Order = (req,res) => {
+  const { data } = req.body;
+  WorkOrder.findOne({_id: req.body.data._id}, function (err, founddata) {
+      if (err) 
+          return res.status(500).send(err);
+      else{
+        founddata.addeditemlist= req.body.data.AddedIteminfo,
+        founddata.workorderno= req.body.data.workorderno,
+        founddata.companydetails= req.body.data.companydetails,
+        founddata.contactperson= req.body.data.contactperson,
+        founddata.date= req.body.data.date,
+        founddata.officeno= req.body.data.officeno,
+        founddata.deliveryschedule= req.body.data.deliveryschedule,
+        founddata.orderdate= req.body.data.orderdate,
+        founddata.deliveryaddress= req.body.data.deliveryaddress,
+        founddata.distance= req.body.data.distance,
+        founddata.sitecontactperson= req.body.data.sitecontactperson,
+        founddata.gstno= req.body.data.gstno,
+        founddata.pono= req.body.data.pono
+
+        if(req.body.data.completed) {
+          founddata.completed = req.body.data.completed;
+        }
+
+
+        founddata.save(function (err,updateddata) {
+          if (err) 
+              res.status(500).send(err);
+
+          res.status(200).json({updateddata})
+      })
+      }
+    });
+
+}
