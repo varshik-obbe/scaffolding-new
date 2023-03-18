@@ -4,6 +4,8 @@ import  uniqueValidator from "mongoose-unique-validator";
 const MasterItemListSchema = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
     masteritemname:{type:String,required:true,lowecase:true,index:true,unique: true},
+    itemName: {type:String,required:true,lowecase:true},
+    masteritemshortdescription: {type:String,required:true,lowecase:true,index:true},
     masteritemdescription:{type:String,required:true,lowecase:true,index:true},
     masteritemtype:{type:String,required:true,lowecase:true,index:true,ref: "masteritemtype"},
     masteritemrate:{type:String,lowecase:true,index:true, default:null},

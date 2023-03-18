@@ -38,4 +38,6 @@ router.get('/getmasteritemlist', MasterItemListController.get_MasterItemTypeList
 
 router.patch('/updatemasteritemlist',Authentication,upload.single("imagefile"), MasterItemListController.update_MasterItemTypeList);
 
+router.delete('/deletemasteritemlist',Authentication, MasterItemListController.delete_MasterItemTypeList);
+
 export default router;

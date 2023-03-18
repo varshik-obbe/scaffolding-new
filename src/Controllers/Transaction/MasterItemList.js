@@ -15,7 +15,9 @@ exports.add_MasterItemTypeList = (req,res)=>{
     const masterItemList = new MasterItemList({
         _id:mongoose.Types.ObjectId(),
         masteritemname:data.masteritemname,
+        itemName: data.itemName,
         masteritemdescription:data.masteritemdescription,
+        masteritemshortdescription:data.masteritemshortdescription,
         masteritemtype:data.masteritemtype,
         masteritemrate:data.masteritemrate,
         masteritemuom:data.masteritemuom,
@@ -48,7 +50,9 @@ exports.get_MasterItemTypeList = (req, res) =>{
             masteritemtypelistdata:masteritemlistdata.map((masteritemlist)=>({
                 id:masteritemlist._id,
                 masteritemtypename:masteritemlist.masteritemname,
+                itemName: masteritemlist.itemName,
                 masteritemdescription:masteritemlist.masteritemdescription,
+                masteritemshortdescription:masteritemlist.masteritemshortdescription,
                 masteritemtype:masteritemlist.masteritemtype,
                 masteritemrate:masteritemlist.masteritemrate,
                 masteritemuom:masteritemlist.masteritemuom,
@@ -87,6 +91,21 @@ exports.update_MasterItemTypeList = (req,res) =>{
         res.status(200).json({success:{global:"Item Type is updated successfully"}})
     }).catch((err)=>{
         res.status(400).json({error:{global:"something went wrong"}});
+    })
+}
+
+exports.delete_MasterItemTypeList = (req,res) => {
+    const id = req.query.id;
+    console.log("id is", id)
+    MasterItemList.deleteOne({_id: id.toString()}, function(err,data) {
+        if(!err) {
+            console.log("deleted data is",data)
+            res.status(200).json({success:{global:"Item deleted successfully"}})
+        }
+        else {
+            console.log("error is",err)
+            res.status(400).json({error:{global:"something went wrong"}});
+        }
     })
 }
 
