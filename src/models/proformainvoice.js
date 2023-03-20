@@ -5,6 +5,7 @@ const itemSchema = new mongoose.Schema({
     id:{type:String,required:true,ref:"masteritemlist"},
     itemname:{type:String,required:true},
     itemdescription:{type:String,required:true},
+    itemshortdescription:{type:String},
     itemtype:{type:String,required:true,lowecase:true,ref:"masteritemtype"},
     itemuom:{type:String,required:true,ref:"Uom"},
     costperunit:{type:Number,default:null},
