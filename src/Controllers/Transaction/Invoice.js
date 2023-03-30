@@ -41,6 +41,8 @@ exports.add_Invoice = (req, res) => {
     total: data.total,
     grandtotal: data.grandtotal,
     deliverychallandata: data.deliverychallandata,
+    quotationnumber: data.quotationnumber,
+    quotationid: data.quotationid,
     workorderno : data.workorderno,
     workorderdate : data.workorderdate,
     despathdate : data.despathdate,
@@ -112,6 +114,8 @@ exports.get_Invoice = (req, res) => {
           roundoffamount: quotation.roundoffamount,
           
           deliverychallandata: quotation.deliverychallandata,
+          quotationnumber: quotation.quotationnumber,
+          quotationid: quotation.quotationid,
           workorderno : quotation.workorderno,
           workorderdate : quotation.workorderdate,
           despathdate : quotation.despathdate,
@@ -149,6 +153,8 @@ exports.update_invoice = (req,res) =>{
           founddata.invoicedate = req.body.data.invoicedate;
 
           founddata.deliverychallandata = req.body.data.deliverychallandata;
+          founddata.quotationnumber = req.body.data.quotationnumber,
+          founddata.quotationid = req.body.data.quotationid,
           founddata.workorderno = req.body.data.workorderno;
           founddata.workorderdate = req.body.data.workorderdate;
           founddata.despathdate = req.body.data.despathdate;
@@ -182,11 +188,17 @@ exports.update_invoice = (req,res) =>{
           
           founddata.addeditemlist = req.body.data.AddedIteminfo
          
-          founddata.save(function (err,updateddata) {
+          founddata.save(async function (err,updateddata) {
               if (err) 
                   res.status(500).send(err);
   
-              res.status(200).json({success:{global:"Challan is updated successfully"}})
+              const invoicedata = await updateddata
+              .populate(
+                'customerid addeditemlist.itemuom addeditemlist.itemtype',
+                '_id masteritemtypename uomname'
+              )
+              .execPopulate();
+              res.status(201).json({ invoicedata });
           })
 
 
@@ -243,6 +255,8 @@ exports.get_SingleInvoice = (req, res) => {
           roundoffamount: quotation.roundoffamount,
           
           deliverychallandata: quotation.deliverychallandata,
+          quotationnumber: quotation.quotationnumber,
+          quotationid: quotation.quotationid,
           workorderno : quotation.workorderno,
           workorderdate : quotation.workorderdate,
           despathdate : quotation.despathdate,

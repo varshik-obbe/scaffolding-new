@@ -32,6 +32,8 @@ const invoiceSchema = new mongoose.Schema({
     saccode:{type:String,lowecase:true},
     goodsDescription:{type:String},
     deliverychallannumber:{type:String,lowecase:true},
+    quotationnumber:{type:String},
+    quotationid: {type:String},
     billingaddress:{type:String},
     deliveryaddress:{type:String},
     remarks:{type:String},

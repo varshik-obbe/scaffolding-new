@@ -35,6 +35,8 @@ const proformainvoiceSchema = new mongoose.Schema({
     deliverychallannumber:{type:String,lowecase:true},
     billingaddress:{type:String},
     deliveryaddress:{type:String},
+    quotationnumber:{type:String},
+    quotationid: {type:String},
     remarks:{type:String},
     transportchargerequired: {type:String},
     taxableamount:{type:String,lowecase:true, default:null},

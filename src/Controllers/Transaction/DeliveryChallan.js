@@ -16,6 +16,8 @@ exports.add_Challan = (req, res) => {
     podate: data.podate,
     vehiclenumber: data.vehiclenumber,
     gstno: data.gstno,
+    invoicenumber: data.invoicenumber,
+    invoiceid: data.invoiceid,
     mobilenumber: data.mobilenumber,
     otherreference: data.otherreference
   });
@@ -51,6 +53,8 @@ exports.get_Challan = (req, res) => {
           site: data.site,
           date: data.date,
           ponumber: data.ponumber,
+          invoicenumber: data.invoicenumber,
+          invoiceid: data.invoiceid,
           podate: data.podate,
           vehiclenumber: data.vehiclenumber,
           gstno: data.gstno,
@@ -84,16 +88,23 @@ exports.update_challan = (req,res) =>{
           founddata.podate = req.body.data.podate,
           founddata.vehiclenumber = req.body.data.vehiclenumber,
           founddata.gstno = req.body.data.gstno,
+          founddata.invoicenumber = req.body.data.invoicenumber,
+          founddata.invoiceid = req.body.data.invoiceid,
           founddata.otherreference = req.body.data.otherreference,
           founddata.totalvalue = req.body.data.totalvalue,
           founddata.mobilenumber = req.body.data.mobilenumber,
           founddata.addeditemlist = req.body.data.AddedIteminfo
          
-          founddata.save(function (err,updateddata) {
+          founddata.save(async function (err,updateddata) {
               if (err) 
                   res.status(500).send(err);
-  
-              res.status(200).json({success:{global:"Challan is updated successfully"}})
+              const challandata = await updateddata
+              .populate(
+                'customerid addeditemlist.itemuom addeditemlist.itemtype',
+                '_id masteritemtypename uomname'
+              )
+              .execPopulate();
+              res.status(200).json({ challandata })
           })
           
       }  
@@ -120,6 +131,8 @@ exports.get_SingleChallan = (req, res) => {
           date: data.date,
           ponumber: data.ponumber,
           podate: data.podate,
+          invoicenumber: data.invoicenumber,
+          invoiceid: data.invoiceid,
           vehiclenumber: data.vehiclenumber,
           gstno: data.gstno,
           mobilenumber: data.mobilenumber,

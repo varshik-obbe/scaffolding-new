@@ -6,7 +6,9 @@ const customerTransactionSchema = new mongoose.Schema({
     quotation:{type:String},
     Qno:{type:String},
     po:{type:String},
-    ponum:{type:String}
+    ponum:{type:String},
+    invoice_link: {type:String},
+    challan_link: {type:String}
 },{ timestamps:true });
 
 customerTransactionSchema.plugin(uniqueValidator)

@@ -21,6 +21,8 @@ const challaneSchema = new mongoose.Schema({
   site:{type:String},
   date:{type:String,lowecase:true},
   ponumber:{type:String},
+  invoicenumber: {type:String},
+  invoiceid: {type:String},
   podate:{type:String,lowercase:true},
   vehiclenumber:{type:String},
   gstno:{type:String},

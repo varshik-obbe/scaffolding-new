@@ -32,6 +32,8 @@ exports.add_ProformaInvoice = (req, res) => {
     vehiclenumber: data.vehiclenumber,
     hsncode: data.hsncode,
     saccode: data.saccode,
+    quotationnumber:data.quotationnumber,
+    quotationid: data.quotationid,
     billingaddress: data.billingaddress,
     deliveryaddress: data.deliveryaddress,
     taxableamount: data.taxableamount,
@@ -116,6 +118,8 @@ exports.get_ProformaInvoice = (req, res) => {
           roundoffamount: quotation.roundoffamount,
           
           deliverychallandata: quotation.deliverychallandata,
+          quotationnumber: quotation.quotationnumber,
+          quotationid: quotation.quotationid,
           workorderno : quotation.workorderno,
           workorderdate : quotation.workorderdate,
           despathdate : quotation.despathdate,
@@ -162,6 +166,8 @@ exports.update_proformainvoice = (req,res) =>{
           founddata.deliverychallannumber = req.body.data.deliverychallannumber;
           founddata.roundoffamount = req.body.data.roundoffamount;
           founddata.purchaseordernumber = req.body.data.purchaseordernumber;
+          founddata.quotationnumber = req.body.data.quotationnumber,
+          founddata.quotationid = req.body.data.quotationid,
           founddata.goodsDescription = req.body.data.goodsDescription;
           founddata.vendorcode = req.body.data.vendorcode;
 
@@ -247,6 +253,8 @@ exports.get_SingleProformaInvoice = (req, res) => {
           roundoffamount: quotation.roundoffamount,
           
           deliverychallandata: quotation.deliverychallandata,
+          quotationnumber: quotation.quotationnumber,
+          quotationid: quotation.quotationid,
           workorderno : quotation.workorderno,
           workorderdate : quotation.workorderdate,
           despathdate : quotation.despathdate,

@@ -49,6 +49,12 @@ exports.update_CustomerTransaction = (req,res) =>{
                     founddata.po = req.body.po
                     founddata.ponum = req.body.ponum
                 }
+                else if(req.body.invoice_link) {
+                    founddata.invoice_link = req.body.invoice_link;
+                }
+                else if(req.body.challan_link) {
+                    founddata.challan_link = req.body.challan_link;
+                }                
                 console.log(founddata)
                 founddata.save(function (err,updateddata) {
                     if (err) 
