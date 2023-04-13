@@ -18,9 +18,10 @@ exports.add_Quotation = (req,res) =>{
     tax:data.gst,
 
     tcharge:data.tcharge,
+    
     ws:data.ws,
     loadingcharge:data.loadingcharge,
-
+    transportationgst: data.transportationgst,
     subject:data.subject,
     totalvalue:data.totalvalue,
     addeditemlist:data.AddedIteminfo
@@ -53,6 +54,7 @@ exports.get_singleQuotation = (req,res) =>{
                         date:quotation.date,
                         tax:quotation.tax,
                         tcharge:quotation.tcharge,
+                        transportationgst:quotation.transportationgst,
                         ws:quotation.ws,
                         loadingcharge:quotation.loadingcharge,
                         subject:quotation.subject,
@@ -91,6 +93,7 @@ exports.get_Quotation = (req,res) =>{
                         date:quotation.date,
                         tax:quotation.tax,
                         tcharge:quotation.tcharge,
+                        transportationgst:quotation.transportationgst,
                         ws:quotation.ws,
                         loadingcharge:quotation.loadingcharge,
                         subject:quotation.subject,
@@ -128,6 +131,7 @@ exports.update_quotation = (req,res) =>{
             founddata.customeraddress =  req.body.data.customeraddress,
             founddata.addeditemlist = req.body.data.AddedIteminfo
             founddata.tcharge = req.body.data.tcharge,
+            founddata.transportationgst = req.body.data.transportationgst,
             founddata.ws = req.body.data.ws,
             founddata.loadingcharge = req.body.data.loadingcharge
           

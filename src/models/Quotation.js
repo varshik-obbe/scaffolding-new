@@ -30,6 +30,7 @@ const quotationSchema = new mongoose.Schema({
     customeraddress:{type:String,default:null},
     
     tcharge:{type:String,default:null},
+    transportationgst: {type:String,default:null},
     ws:{type:String,default:null},
     loadingcharge:{type:String,default:null},
     addeditemlist: [itemSchema]

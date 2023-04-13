@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     password:{type:String,required:true,lowecase:true},
     active:{type:String,required:false,lowecase:true},
     persontype:{type:String,required:true,lowecase:true},
+    second_persontype: {type:String,lowecase:true},
     department:{type:String,required:true,lowecase:true},
     job:{type:String,required:true,lowecase:true},
     location:{type:String,required:true,lowecase:true},
@@ -32,7 +33,7 @@ userSchema.methods.isValidPassword = function isValidPassword(password) {
 }
 
 userSchema.methods.generateJWT = function generateJWT(){
-    return jwt.sign({ email: this.email, role:this.persontype }, 'SECRET');
+    return jwt.sign({ email: this.email, role:this.persontype, second_role: this.second_persontype }, 'SECRET');
 }
 
 userSchema.methods.toAuthJSON = function toAuthJSON(){

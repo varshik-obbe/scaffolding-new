@@ -45,10 +45,10 @@ mongoose
   .connect(
 //     `mongodb+srv://scaffolding:scaffolding@cluster0-cqgrr.mongodb.net/test?retryWrites=true&w=majority`,
 //     { useNewUrlParser: true }
-    "mongodb://varshik:test123@localhost:27017/scaffolding?authSource=admin", {useNewUrlParser: true}
+    "mongodb://localhost:27017/scaffolding", {useNewUrlParser: true}
   )
 //   )
-// mongoose.connect("mongodb://localhost:27017/scaffolding",{ useNewUrlParser: true })
+// mongoose.connect("mongodb://varshik:test123@localhost:27017/scaffolding?authSource=admin",{ useNewUrlParser: true })
   .catch(err => {
     console.log(err);
   });
