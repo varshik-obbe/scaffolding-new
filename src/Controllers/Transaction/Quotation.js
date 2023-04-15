@@ -16,6 +16,7 @@ exports.add_Quotation = (req,res) =>{
     customeraddress: data.customeraddress,
     date:data.date,
     tax:data.gst,
+    tcs:data.tcs,
 
     tcharge:data.tcharge,
     
@@ -53,6 +54,7 @@ exports.get_singleQuotation = (req,res) =>{
                         quotationnumber:quotation.quotationnumber,
                         date:quotation.date,
                         tax:quotation.tax,
+                        tcs:quotation.tcs,
                         tcharge:quotation.tcharge,
                         transportationgst:quotation.transportationgst,
                         ws:quotation.ws,
@@ -92,6 +94,7 @@ exports.get_Quotation = (req,res) =>{
                         customeraddress:quotation.customeraddress ? quotation.customeraddress : '',
                         date:quotation.date,
                         tax:quotation.tax,
+                        tcs:quotation.tcs,
                         tcharge:quotation.tcharge,
                         transportationgst:quotation.transportationgst,
                         ws:quotation.ws,
@@ -126,6 +129,7 @@ exports.update_quotation = (req,res) =>{
             founddata.quotationnumber = req.body.data.quotationnumber,
             founddata.date = req.body.data.date,
             founddata.tax = req.body.data.gst,
+            founddata.tcs = req.body.data.tcs,
             founddata.subject = req.body.data.subject,
             founddata.totalvalue = req.body.data.totalvalue,
             founddata.customeraddress =  req.body.data.customeraddress,
