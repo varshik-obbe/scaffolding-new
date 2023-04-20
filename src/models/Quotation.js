@@ -30,6 +30,7 @@ const quotationSchema = new mongoose.Schema({
     tcs:{type:String,lowecase:true, default:null},
     totalvalue:{type:String,lowecase:true, required:true, default:null},
     customeraddress:{type:String,default:null},
+    user_email:{type:String,default:null},
     
     tcharge:{type:String,default:null},
     transportationgst: {type:String,default:null},
