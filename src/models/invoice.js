@@ -33,6 +33,7 @@ const invoiceSchema = new mongoose.Schema({
     goodsDescription:{type:String},
     deliverychallannumber:{type:String,lowecase:true},
     quotationnumber:{type:String},
+    user_email: {type:String},
     quotationid: {type:String},
     billingaddress:{type:String},
     deliveryaddress:{type:String},

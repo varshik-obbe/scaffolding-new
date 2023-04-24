@@ -32,6 +32,8 @@ const orderSchema = new mongoose.Schema(
     contactperson: { type: String },
     date: { type: String, lowecase: true },
     officeno: { type: String },
+    quotationnumber: { type: String },
+    quotationid: { type: String },
     deliveryschedule: { type: String, lowercase: true },
     orderdate: { type: String },
     deliveryaddress: { type: String },

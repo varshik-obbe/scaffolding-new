@@ -21,6 +21,7 @@ exports.add_ProformaInvoice = (req, res) => {
     proformainvoicenumber: data.purchaseordernumber,
     transportchargerequired:data.transportchargerequired,
     remarks:data.remarks,
+    user_email:data.user_email,
     date: data.date,
     purchaseorderdate: data.purchaseorderdate,
     invoicedate: data.invoicedate,
@@ -111,6 +112,7 @@ exports.get_ProformaInvoice = (req, res) => {
           tcs: quotation.tcs,
           total: quotation.total,
           remarks:quotation.remarks,
+          user_email:quotation.user_email,
           goodsDescription:quotation.goodsDescription,
           grandtotal: quotation.grandtotal,
           addeditemlist: quotation.addeditemlist,
@@ -154,6 +156,7 @@ exports.update_proformainvoice = (req,res) =>{
           founddata.customergstnumber = req.body.data.customerdetail.customergstnumber;
           founddata.invoicenumber = req.body.data.invoicenumber;
           founddata.remarks = req.body.data.remarks;
+          founddata.user_email = req.body.data.user_email,
           founddata.date = req.body.data.date;
           founddata.purchaseorderdate = req.body.data.purchaseorderdate;
           founddata.invoicedate = req.body.data.invoicedate;
@@ -248,6 +251,7 @@ exports.get_SingleProformaInvoice = (req, res) => {
           tcs: quotation.tcs,
           total: quotation.total,
           remarks:quotation.remarks,
+          user_email:quotation.user_email,
           goodsDescription:quotation.goodsDescription,
           grandtotal: quotation.grandtotal,
           addeditemlist: quotation.addeditemlist,

@@ -11,6 +11,8 @@ exports.add_Order = (req, res) => {
     workorderno: data.workorderno,
     companydetails: data.companydetails,
     contactperson: data.contactperson,
+    quotationnumber: data.quotationnumber,
+    quotationid: data.quotationid,
     date: data.date,
     officeno: data.officeno,
     deliveryschedule: data.deliveryschedule,
@@ -50,6 +52,8 @@ exports.get_Order = (req, res) => {
           workorderno: data.workorderno,
           companydetails: data.companydetails,
           contactperson: data.contactperson,
+          quotationnumber: data.quotationnumber,
+          quotationid: data.quotationid,
           date: data.date,
           officeno: data.officeno,
           deliveryschedule: data.deliveryschedule,
@@ -70,6 +74,48 @@ exports.get_Order = (req, res) => {
     });
 };
 
+
+exports.get_SingleWorkOrder = (req, res) => {
+
+  WorkOrder
+  .find({'_id':req.params.id})
+    .populate(
+      'customerid addeditemlist.id addeditemlist.itemuom addeditemlist.itemtype addeditemlist.itemuom',
+      '_id masteritemtypename uomname masteritemname masteritemimage masteritemunitwt'
+    )
+    .exec()
+    .then(invoicedata => {
+      const response = {
+        count: invoicedata.length,
+        orderdata: invoicedata.map(data => ({
+          _id: data.id,
+          addeditemlist: data.addeditemlist,
+          workorderno: data.workorderno,
+          companydetails: data.companydetails,
+          contactperson: data.contactperson,
+          quotationnumber: data.quotationnumber,
+          quotationid: data.quotationid,
+          date: data.date,
+          officeno: data.officeno,
+          deliveryschedule: data.deliveryschedule,
+          orderdate: data.orderdate,
+          deliveryaddress: data.deliveryaddress,
+          distance: data.distance,
+          sitecontactperson: data.sitecontactperson,
+          gstno: data.gstno,
+          pono: data.pono,
+          completed: data.completed
+        }))
+      };
+      console.log(response);
+      res.status(200).json({ orderlist: response });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: { global: 'something went wrong' } });
+    });
+};
+
 exports.update_Order = (req,res) => {
   const { data } = req.body;
   WorkOrder.findOne({_id: req.body.data._id}, function (err, founddata) {
@@ -82,6 +128,8 @@ exports.update_Order = (req,res) => {
         founddata.contactperson= req.body.data.contactperson,
         founddata.date= req.body.data.date,
         founddata.officeno= req.body.data.officeno,
+        founddata.quotationnumber = req.body.data.quotationnumber,
+        founddata.quotationid = req.body.data.quotationid,
         founddata.deliveryschedule= req.body.data.deliveryschedule,
         founddata.orderdate= req.body.data.orderdate,
         founddata.deliveryaddress= req.body.data.deliveryaddress,

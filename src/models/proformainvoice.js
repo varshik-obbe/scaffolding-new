@@ -19,6 +19,7 @@ const proformainvoiceSchema = new mongoose.Schema({
     customerid:{type:String,required:true,lowecase:true,ref:"Customer"},
     customernumber:{type:String,lowecase:true},
     customername:{type:String,lowecase:true},
+    user_email: {type:String},
     customercontactnumber:{type:String,lowecase:true},
     customergstnumber:{type:String,lowecase:true, default:null},
     invoicenumber:{type:String,lowecase:true,unique: true, default:null, required:true},

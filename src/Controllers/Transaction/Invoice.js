@@ -21,6 +21,7 @@ exports.add_Invoice = (req, res) => {
     remarks:data.remarks,
     date: data.date,
     purchaseorderdate: data.purchaseorderdate,
+    user_email: data.user_email,
     invoicedate: data.invoicedate,
     deliverychallannumber: data.deliverychallannumber,
     roundoffamount: data.roundoffamount,
@@ -91,6 +92,7 @@ exports.get_Invoice = (req, res) => {
           customergstnumber: quotation.customergstnumber,
           invoicenumber: quotation.invoicenumber,
           date: quotation.date,
+          user_email: quotation.user_email,
           purchaseordernumber: quotation.purchaseordernumber,
           vendorcode: quotation.vendorcode,
           vehiclenumber: quotation.vehiclenumber,
@@ -161,6 +163,7 @@ exports.update_invoice = (req,res) =>{
           founddata.workorderdate = req.body.data.workorderdate;
           founddata.despathdate = req.body.data.despathdate;
           founddata.removaltime = req.body.data.removaltime;
+          founddata.user_email =  req.body.data.user_email
           founddata.transportationcharge = req.body.data.transportationcharge;
           founddata.advanceamountreceived = req.body.data.advanceamountreceived;
 
@@ -234,6 +237,7 @@ exports.get_SingleInvoice = (req, res) => {
           customergstnumber: quotation.customergstnumber,
           invoicenumber: quotation.invoicenumber,
           date: quotation.date,
+          user_email: quotation.user_email,
           purchaseordernumber: quotation.purchaseordernumber,
           vendorcode: quotation.vendorcode,
           vehiclenumber: quotation.vehiclenumber,
