@@ -25,6 +25,7 @@ const quotationSchema = new mongoose.Schema({
     customergstnumber:{type:String,lowecase:true, default:null},
     quotationnumber:{type:String,lowecase:true,unique: true, default:null},
     date:{type:String,required:true,lowecase:true},
+    scheduledays:{type:String,lowecase:true},
     subject:{type:String,required:false,lowecase:true},
     tax:{type:String,lowecase:true, required:true, default:null},
     tcs:{type:String,lowecase:true, default:null},
