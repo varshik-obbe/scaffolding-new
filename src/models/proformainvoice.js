@@ -56,6 +56,7 @@ const proformainvoiceSchema = new mongoose.Schema({
     despathdate: {type:String, default:null},
     removaltime:{type:String,default:null},
     transportationcharge: {type:String,default:null},
+    transportationgst: {type:String,default:null},
     advanceamountreceived:{type:String,default:null},
     addeditemlist: [itemSchema]
 },{ timestamps:true });

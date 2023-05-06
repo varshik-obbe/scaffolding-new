@@ -52,6 +52,7 @@ exports.add_ProformaInvoice = (req, res) => {
     despathdate : data.despathdate,
     removaltime : data.removaltime,
     transportationcharge : data.transportationcharge,
+    transportationgst: data.transportationgst,
     advanceamountreceived : data.advanceamountreceived,
     addeditemlist: data.AddedIteminfo
   });
@@ -129,6 +130,7 @@ exports.get_ProformaInvoice = (req, res) => {
           despathdate : quotation.despathdate,
           removaltime : quotation.removaltime,
           transportationcharge : quotation.transportationcharge,
+          transportationgst: quotation.transportationgst,
           advanceamountreceived : quotation.advanceamountreceived
         }))
       };
@@ -167,6 +169,7 @@ exports.update_proformainvoice = (req,res) =>{
           founddata.removaltime = req.body.data.removaltime;
           founddata.transportationcharge = req.body.data.transportationcharge;
           founddata.advanceamountreceived = req.body.data.advanceamountreceived;
+          founddata.transportationgst = req.body.data.transportationgst,
           founddata.transportchargerequired = req.body.data.transportchargerequired;
           founddata.deliverychallannumber = req.body.data.deliverychallannumber;
           founddata.roundoffamount = req.body.data.roundoffamount;
@@ -268,6 +271,7 @@ exports.get_SingleProformaInvoice = (req, res) => {
           despathdate : quotation.despathdate,
           removaltime : quotation.removaltime,
           transportationcharge : quotation.transportationcharge,
+          transportationgst: data.transportationgst,
           advanceamountreceived : quotation.advanceamountreceived
         }))
       };
