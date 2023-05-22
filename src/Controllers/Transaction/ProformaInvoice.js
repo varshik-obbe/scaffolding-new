@@ -280,6 +280,6 @@ exports.get_SingleProformaInvoice = (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: { global: 'something went wrong' } });
+      res.status(500).json({ error: { global: 'something went wrong', error: err } });
     });
 };
