@@ -271,7 +271,7 @@ exports.get_SingleProformaInvoice = (req, res) => {
           despathdate : quotation.despathdate,
           removaltime : quotation.removaltime,
           transportationcharge : quotation.transportationcharge,
-          transportationgst: data.transportationgst,
+          transportationgst: quotation.transportationgst,
           advanceamountreceived : quotation.advanceamountreceived
         }))
       };
