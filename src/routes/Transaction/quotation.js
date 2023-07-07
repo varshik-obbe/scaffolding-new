@@ -12,5 +12,7 @@ router.get('/getsinglequotation/:id',Authentication, QuotationController.get_sin
 
 router.post('/updatequotation',Authentication, QuotationController.update_quotation);
 
+router.get('/generatequotaionPDF/:id',QuotationController.generate_pdf);
+
 
 export default router;
