@@ -286,7 +286,7 @@ exports.generate_pdf = (req, res) => {
                 });
 
                 if (pageone.length > 0) {
-                    pageone.forEach(element => {
+                    pageone.forEach((element, index) => {
                         let data =  {
                             id: quotationdata[0].addeditemlist[element].id,
                             itemname: quotationdata[0].addeditemlist[element].itemname,
@@ -300,6 +300,9 @@ exports.generate_pdf = (req, res) => {
                             itemdiscountamount: quotationdata[0].addeditemlist[element].itemdiscountamount,
                             quantity: quotationdata[0].addeditemlist[element].quantity,
                             totalcost: quotationdata[0].addeditemlist[element].totalcost
+                        }
+                        if(index == 0) {
+                          data["pageOneImgs"] = pageOneImgs;
                         } 
                         pageOneData.push(data);
                     });
@@ -315,12 +318,15 @@ exports.generate_pdf = (req, res) => {
                 return;
             }
 
+            let base_url = process.env.BASE_URL+"uploads/";
+
             let data = {
                 quoteNo: quoteNo,
                 pageOneData: pageOneData,
                 pageOneImgs: pageOneImgs,
                 pageTwoData: pageTwoData,
-                pageTwoImgs: pageTwoImgs
+                pageTwoImgs: pageTwoImgs,
+                base_url: base_url
             }
 
             let htmlToSend = template(data);
