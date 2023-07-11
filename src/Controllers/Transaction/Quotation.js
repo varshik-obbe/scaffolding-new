@@ -194,10 +194,20 @@ exports.generate_pdf = (req, res) => {
 
             let quoteNo = "PSPL/Quote/" + quotationdata[0].quotationnumber + "/" + year;
 
+            let customername = quotationdata[0].customername;
+
+            let customernumber = quotationdata[0].customercontactnumber;
+
+            let ws = quotationdata[0].ws;
+
+            let loadingandhandling = quotationdata[0].loadingcharge;
+
+            let gst = quotationdata[0].tax;
+
 
             const readFile = promisify(fs.readFile);
 
-            let html = await readFile("./uploads/newInvoice_template.html", 'utf-8');
+            let html = await readFile("./uploads/newOptimizedinvoice.html", 'utf-8');
 
             Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
                 return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -216,6 +226,22 @@ exports.generate_pdf = (req, res) => {
             let pageOneData = [];
             let pageOneImgs = [];
             let pageTwoImgs = [];
+            let pageThreeImgs = [];
+            let pageoneRowspan = 0;
+            let pagetwoRowspan = 0;
+            let pagethreeRowspan = 0;
+            let pageonetotal = 0;
+            let pagetwototal = 0;
+            let pagethreetotal = 0;
+            let pageonesubtotal = 0;
+            let pagetwosubtotal = 0;
+            let pagethreesubtotal = 0;
+            let pageonegst = 0;
+            let pagetwogst = 0;
+            let pagethreegst = 0;
+            let pageonegsttotal = 0;
+            let pagetwogsttotal = 0;
+            let pagethreegsttotal = 0;
             let pageTwoData = [];
             let pageThreeData = [];
             let totalLength = 0;
@@ -248,21 +274,25 @@ exports.generate_pdf = (req, res) => {
 
                 quotationdata[0].addeditemlist.forEach((ele, i) => {
                     if (i == 0 && quotationdata[0].addeditemlist.length > 1) {
-                        if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 1356) {
-                            pageone.push(i, i + 1);
-                            pageOneImgs.push(quotationdata[0].addeditemlist[i].itemimage, quotationdata[0].addeditemlist[i + 1].itemimage)
-                            if (quotationdata[0].addeditemlist.length > 2) {
-                                if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 1356) {
-                                    pageone.push(i, i + 1, i + 2);
-                                    pageOneImgs.push(quotationdata[0].addeditemlist[i + 2].itemimage)
-                                    if (quotationdata[0].addeditemlist.length > 3) {
-                                        if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 1356) {
-                                            pageone.push(i, i + 1, i + 2, i + 3);
-                                            pageOneImgs.push(quotationdata[0].addeditemlist[i + 3].itemimage)
-                                            if (quotationdata[0].addeditemlist.length > 4) {
-                                                if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 1356) {
-                                                    pageone.push(i, i + 1, i + 2, i + 3, i + 4);
-                                                    pageOneImgs.push(quotationdata[0].addeditemlist[i + 4].itemimage)
+                        if(ele.itemdescription.length < 700) {
+                            pageone.push(i);
+                            pageOneImgs.push(quotationdata[0].addeditemlist[i].itemimage)
+                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 700) {
+                                pageone.push(i + 1);
+                                pageOneImgs.push(quotationdata[0].addeditemlist[i + 1].itemimage)
+                                if (quotationdata[0].addeditemlist.length > 2) {
+                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 700) {
+                                        pageone.push(i + 2);
+                                        pageOneImgs.push(quotationdata[0].addeditemlist[i + 2].itemimage)
+                                        if (quotationdata[0].addeditemlist.length > 3) {
+                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 700) {
+                                                pageone.push(i + 3);
+                                                pageOneImgs.push(quotationdata[0].addeditemlist[i + 3].itemimage)
+                                                if (quotationdata[0].addeditemlist.length > 4) {
+                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 700) {
+                                                        pageone.push(i + 4);
+                                                        pageOneImgs.push(quotationdata[0].addeditemlist[i + 4].itemimage)
+                                                    }
                                                 }
                                             }
                                         }
@@ -271,15 +301,47 @@ exports.generate_pdf = (req, res) => {
                             }
                         }
                         if (pageone.length > 0) {
-                            if (quotationdata[0].addeditemlist.length >= pageone.length + 1) {
-                                if (quotationdata[0].addeditemlist[pageone.length].itemdescription.length < 1312) {
+                            if (quotationdata[0].addeditemlist.length > pageone.length) {
+                                if (quotationdata[0].addeditemlist[pageone.length].itemdescription.length < 1100) {
                                     pageTwo.push(pageone.length)
-                                    pageTwoImgs.push(pageone.length)
+                                    pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length].itemimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length + 1) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length < 1100) {
+                                    pageTwo.push(pageone.length + 1)
+                                    pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length + 1].itemimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length + 2) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 2].itemdescription.length < 1100) {
+                                    pageTwo.push(pageone.length + 2)
+                                    pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length + 2].itemimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length + 3) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 2].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 3].itemdescription.length < 1100) {
+                                    pageTwo.push(pageone.length + 3)
+                                    pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length + 3].itemimage)
+                                }
+                            }
+                        }
+                        if(pageTwo.length > 0) {
+                            if (quotationdata[0].addeditemlist.length > (pageone.length + pageTwo.length)) {
+                                if (quotationdata[0].addeditemlist[pageone.length + pageTwo.length].itemdescription.length < 1100) {
+                                    pageThree.push(pageone.length  + pageTwo.length)
+                                    pageThreeImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length].itemimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length  + pageTwo.length + 1) && quotationdata[0].addeditemlist[pageone.length  + pageTwo.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 1].itemdescription.length < 1100) {
+                                    pageThree.push(pageone.length  + pageTwo.length + 1)
+                                    pageThreeImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 1].itemimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length  + pageTwo.length + 2) && quotationdata[0].addeditemlist[pageone.length  + pageTwo.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 2].itemdescription.length < 1100) {
+                                    pageThree.push(pageone.length  + pageTwo.length + 2)
+                                    pageThreeImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 2].itemimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length  + pageTwo.length + 3) && quotationdata[0].addeditemlist[pageone.length  + pageTwo.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 2].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 3].itemdescription.length < 1100) {
+                                    pageThree.push(pageone.length  + pageTwo.length + 3)
+                                    pageThreeImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 3].itemimage)
                                 }
                             }
                         }
                     }
-                    else {
+                    else if((i == 0 && quotationdata[0].addeditemlist.length == 1)) {
                         pageone.push(i);
                         pageOneImgs.push(quotationdata[0].addeditemlist[i].itemimage)
                     }
@@ -301,17 +363,83 @@ exports.generate_pdf = (req, res) => {
                             quantity: quotationdata[0].addeditemlist[element].quantity,
                             totalcost: quotationdata[0].addeditemlist[element].totalcost
                         }
+                        pageonetotal  = pageonetotal + parseFloat(quotationdata[0].addeditemlist[element].totalcost);
                         if(index == 0) {
                           data["pageOneImgs"] = pageOneImgs;
+                          data["pageoneRowspan"] = pageone.length;
                         } 
                         pageOneData.push(data);
                     });
+                    pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal);
+                    pageonegst = parseFloat(pageonesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    pageonegsttotal = pageonegst + pageonesubtotal;
+                    pageonesubtotal = pageonesubtotal.toFixed(2);
+                    pageonetotal = pageonetotal.toFixed(2);
+                    pageonegst = pageonegst.toFixed(2);
+                    pageonegsttotal = pageonegsttotal.toFixed(2);
                 }
                 if (pageTwo.length > 0) {
-                    pageTwo.forEach(element => {
-                        pageTwoData.push(quotationdata[0].addeditemlist[element]);
-                    })
+                    pageTwo.forEach((element, index) => {
+                        let data =  {
+                            id: quotationdata[0].addeditemlist[element].id,
+                            itemname: quotationdata[0].addeditemlist[element].itemname,
+                            itemimage: quotationdata[0].addeditemlist[element].itemimage,
+                            itemdescription: quotationdata[0].addeditemlist[element].itemdescription,
+                            itemshortdescription: quotationdata[0].addeditemlist[element].itemshortdescription,
+                            itemtype: quotationdata[0].addeditemlist[element].itemtype,
+                            itemuom: quotationdata[0].addeditemlist[element].itemuom,
+                            costperunit: quotationdata[0].addeditemlist[element].costperunit,
+                            itemdiscount: quotationdata[0].addeditemlist[element].itemdiscount,
+                            itemdiscountamount: quotationdata[0].addeditemlist[element].itemdiscountamount,
+                            quantity: quotationdata[0].addeditemlist[element].quantity,
+                            totalcost: quotationdata[0].addeditemlist[element].totalcost
+                        }
+                        pagetwototal  = pagetwototal + parseFloat(quotationdata[0].addeditemlist[element].totalcost);
+                        if(index == 0) {
+                          data["pageTwoImgs"] = pageTwoImgs;
+                          data["pagetwoRowspan"] = pageTwo.length;
+                        } 
+                        pageTwoData.push(data);
+                    });
+                    pagetwosubtotal = parseFloat(ws) + parseFloat(pagetwototal) + parseFloat(loadingandhandling);
+                    pagetwogst = parseFloat(pagetwosubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    pagetwogsttotal = pagetwogst + pagetwosubtotal;
+                    pagetwosubtotal = pagetwosubtotal.toFixed(2);
+                    pagetwototal = pagetwototal.toFixed(2);
+                    pagetwogst = pagetwogst.toFixed(2);
+                    pagetwogsttotal = pagetwogsttotal.toFixed(2);
                 }
+                if (pageThree.length > 0) {
+                    pageThree.forEach((element, index) => {
+                        let data =  {
+                            id: quotationdata[0].addeditemlist[element].id,
+                            itemname: quotationdata[0].addeditemlist[element].itemname,
+                            itemimage: quotationdata[0].addeditemlist[element].itemimage,
+                            itemdescription: quotationdata[0].addeditemlist[element].itemdescription,
+                            itemshortdescription: quotationdata[0].addeditemlist[element].itemshortdescription,
+                            itemtype: quotationdata[0].addeditemlist[element].itemtype,
+                            itemuom: quotationdata[0].addeditemlist[element].itemuom,
+                            costperunit: quotationdata[0].addeditemlist[element].costperunit,
+                            itemdiscount: quotationdata[0].addeditemlist[element].itemdiscount,
+                            itemdiscountamount: quotationdata[0].addeditemlist[element].itemdiscountamount,
+                            quantity: quotationdata[0].addeditemlist[element].quantity,
+                            totalcost: quotationdata[0].addeditemlist[element].totalcost
+                        }
+                        pagethreetotal  = pagethreetotal + parseFloat(quotationdata[0].addeditemlist[element].totalcost);
+                        if(index == 0) {
+                          data["pageThreeImgs"] = pageThreeImgs;
+                          data["pagethreeRowspan"] = pageThree.length;
+                        } 
+                        pageThreeData.push(data);
+                    });
+                    pagethreesubtotal = parseFloat(ws) + parseFloat(pagethreetotal) + parseFloat(loadingandhandling);
+                    pagethreegst = parseFloat(pagethreesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    pagethreegsttotal = pagethreegst + pagethreesubtotal;
+                    pagethreesubtotal = pagethreesubtotal.toFixed(2);
+                    pagethreetotal = pagethreetotal.toFixed(2);
+                    pagethreegst = pagethreegst.toFixed(2);
+                    pagethreegsttotal = pagethreegsttotal.toFixed(2);
+                }                
             }
             else {
                 res.status(500).json({ error: { global: "something went wrong", err } });
@@ -326,7 +454,26 @@ exports.generate_pdf = (req, res) => {
                 pageOneImgs: pageOneImgs,
                 pageTwoData: pageTwoData,
                 pageTwoImgs: pageTwoImgs,
-                base_url: base_url
+                pageThreeData: pageThreeData,
+                pageThreeImgs: pageThreeImgs,                
+                base_url: base_url,
+                customername: customername,
+                customernumber: customernumber,
+                ws: ws,
+                gst: gst,
+                pageonetotal: pageonetotal,
+                pageonegst: pageonegst,
+                pageonegsttotal: pageonegsttotal,
+                pagetwototal: pagetwototal,
+                pagetwogst: pagetwogst,
+                pagetwogsttotal: pagetwogsttotal,
+                pagethreetotal: pagethreetotal,
+                pagethreegst: pagethreegst,
+                pagethreegsttotal: pagethreegsttotal,
+                pageonesubtotal: pageonesubtotal,
+                pagetwosubtotal: pagetwosubtotal,
+                pagethreesubtotal: pagethreesubtotal,
+                loadingandhandling: loadingandhandling
             }
 
             let htmlToSend = template(data);
