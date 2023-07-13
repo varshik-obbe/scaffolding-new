@@ -167,6 +167,19 @@ function convertTZ(date, tzString) {
     return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", { timeZone: tzString }));
 }
 
+async function toBase64(filePath) {
+    try {
+      const readFile = promisify(fs.readFile);
+      const result = await readFile(filePath, {
+        encoding: 'base64',
+      });
+  
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+}
+
 exports.generate_pdf = (req, res) => {
     Quotation.find({ _id: req.params.id })
         .populate('customerid addeditemlist.id addeditemlist.itemuom addeditemlist.itemtype', '_id masteritemtypename uomname masteritemname masteritemimage masteritemunitwt')
@@ -276,14 +289,14 @@ exports.generate_pdf = (req, res) => {
                     if (i == 0 && quotationdata[0].addeditemlist.length > 1) {
                         if(ele.itemdescription.length < 700) {
                             pageone.push(i);
-                            pageOneImgs.push(quotationdata[0].addeditemlist[i].itemimage)
+                            pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemimage))
                             if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 700) {
                                 pageone.push(i + 1);
-                                pageOneImgs.push(quotationdata[0].addeditemlist[i + 1].itemimage)
+                                pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 1].itemimage))
                                 if (quotationdata[0].addeditemlist.length > 2) {
                                     if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 700) {
                                         pageone.push(i + 2);
-                                        pageOneImgs.push(quotationdata[0].addeditemlist[i + 2].itemimage)
+                                        pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 2].itemimage))
                                         if (quotationdata[0].addeditemlist.length > 3) {
                                             if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 700) {
                                                 pageone.push(i + 3);
@@ -364,10 +377,25 @@ exports.generate_pdf = (req, res) => {
                             totalcost: quotationdata[0].addeditemlist[element].totalcost
                         }
                         pageonetotal  = pageonetotal + parseFloat(quotationdata[0].addeditemlist[element].totalcost);
-                        if(index == 0) {
+                        if(index == 0) {                                                    
                           data["pageOneImgs"] = pageOneImgs;
                           data["pageoneRowspan"] = pageone.length;
-                        } 
+                        }
+                        if(index == 0) {
+                            data["pageoneFirstImage"] = pageOneImgs[0];
+                        }
+                        if(index == 1) {
+                            data["pageoneSecondImage"] = pageOneImgs[1];
+                        }
+                        if(index == 3) {
+                            data["pageoneThirdImage"] = pageOneImgs[2];
+                        }
+                        if(index == 4) {
+                            data["pageoneFourthImage"] = pageOneImgs[3];
+                        }
+                        if(index == 5) {
+                            data["pageoneFifthImage"] = pageOneImgs[4];
+                        }
                         pageOneData.push(data);
                     });
                     pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal);
@@ -488,19 +516,20 @@ exports.generate_pdf = (req, res) => {
 
             // set your html as the pages content
             await page.setContent(htmlToSend, {
-                waitUntil: 'domcontentloaded'
+                waitUntil: ['domcontentloaded', 'load', "networkidle0"]
             })
 
             // create a pdf buffer
-            const pdfBuffer = await page.pdf({
-                format: 'A4'
-            })
+            // const pdfBuffer = await page.pdf({
+            //     format: 'A4'
+            // })
 
             // or a .pdf file
             await page.pdf({
                 // width: '35cm',
                 // height: '30cm',
                 format: 'A4',
+                printBackground: true,
                 margin: {
                     top: '2px',
                     bottom: '2px',
