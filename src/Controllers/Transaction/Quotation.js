@@ -506,7 +506,8 @@ exports.generate_pdf = (req, res) => {
 
             let htmlToSend = template(data);
 
-            let pdfName = quotationdata[0].customername.replace(/ |'/g, "_") + Date.now().toString();
+            let pdfName = quotationdata[0].customername.replace(/\//g, "_");
+            pdfName = pdfName.replace(/ |'/g, "_") + Date.now().toString();
 
 
             const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: true })
