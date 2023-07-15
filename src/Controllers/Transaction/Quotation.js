@@ -233,6 +233,9 @@ exports.generate_pdf = (req, res) => {
 
             let template = Handlebars.compile(html);
 
+            let pageoneislast = false;
+            let pagetwoislast = false;
+            let pagethreeislast = false;
             let pageone = [];
             let pageTwo = [];
             let pageThree = [];
@@ -287,22 +290,22 @@ exports.generate_pdf = (req, res) => {
 
                 quotationdata[0].addeditemlist.forEach((ele, i) => {
                     if (i == 0 && quotationdata[0].addeditemlist.length > 1) {
-                        if(ele.itemdescription.length < 700) {
+                        if(ele.itemdescription.length < 850) {
                             pageone.push(i);
                             pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemimage))
-                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 700) {
+                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 850) {
                                 pageone.push(i + 1);
                                 pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 1].itemimage))
                                 if (quotationdata[0].addeditemlist.length > 2) {
-                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 700) {
+                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 850) {
                                         pageone.push(i + 2);
                                         pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 2].itemimage))
                                         if (quotationdata[0].addeditemlist.length > 3) {
-                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 700) {
+                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 850) {
                                                 pageone.push(i + 3);
                                                 pageOneImgs.push(quotationdata[0].addeditemlist[i + 3].itemimage)
                                                 if (quotationdata[0].addeditemlist.length > 4) {
-                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 700) {
+                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 850) {
                                                         pageone.push(i + 4);
                                                         pageOneImgs.push(quotationdata[0].addeditemlist[i + 4].itemimage)
                                                     }
@@ -398,13 +401,14 @@ exports.generate_pdf = (req, res) => {
                         }
                         pageOneData.push(data);
                     });
-                    pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal);
+                    pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal) + parseFloat(loadingandhandling);
                     pageonegst = parseFloat(pageonesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     pageonegsttotal = pageonegst + pageonesubtotal;
                     pageonesubtotal = pageonesubtotal.toFixed(2);
                     pageonetotal = pageonetotal.toFixed(2);
                     pageonegst = pageonegst.toFixed(2);
                     pageonegsttotal = pageonegsttotal.toFixed(2);
+                    pageoneislast = true;
                 }
                 if (pageTwo.length > 0) {
                     pageTwo.forEach((element, index) => {
@@ -429,13 +433,16 @@ exports.generate_pdf = (req, res) => {
                         } 
                         pageTwoData.push(data);
                     });
-                    pagetwosubtotal = parseFloat(ws) + parseFloat(pagetwototal) + parseFloat(loadingandhandling);
+                    let allpagesTotal = parseFloat(pagetwototal) + parseFloat(pageonetotal);
+                    pagetwosubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
                     pagetwogst = parseFloat(pagetwosubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     pagetwogsttotal = pagetwogst + pagetwosubtotal;
                     pagetwosubtotal = pagetwosubtotal.toFixed(2);
                     pagetwototal = pagetwototal.toFixed(2);
                     pagetwogst = pagetwogst.toFixed(2);
                     pagetwogsttotal = pagetwogsttotal.toFixed(2);
+                    pageoneislast = false;
+                    pagetwoislast = true;
                 }
                 if (pageThree.length > 0) {
                     pageThree.forEach((element, index) => {
@@ -460,13 +467,16 @@ exports.generate_pdf = (req, res) => {
                         } 
                         pageThreeData.push(data);
                     });
-                    pagethreesubtotal = parseFloat(ws) + parseFloat(pagethreetotal) + parseFloat(loadingandhandling);
+                    let allpagesTotal = parseFloat(pagethreetotal) + parseFloat(pagetwototal) + parseFloat(pageonetotal);
+                    pagethreesubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
                     pagethreegst = parseFloat(pagethreesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     pagethreegsttotal = pagethreegst + pagethreesubtotal;
                     pagethreesubtotal = pagethreesubtotal.toFixed(2);
                     pagethreetotal = pagethreetotal.toFixed(2);
                     pagethreegst = pagethreegst.toFixed(2);
                     pagethreegsttotal = pagethreegsttotal.toFixed(2);
+                    pagetwoislast = false;
+                    pagethreeislast = true;
                 }                
             }
             else {
@@ -501,7 +511,10 @@ exports.generate_pdf = (req, res) => {
                 pageonesubtotal: pageonesubtotal,
                 pagetwosubtotal: pagetwosubtotal,
                 pagethreesubtotal: pagethreesubtotal,
-                loadingandhandling: loadingandhandling
+                loadingandhandling: loadingandhandling,
+                pageoneislast: pageoneislast,
+                pagetwoislast: pagetwoislast,
+                pagethreeislast: pagethreeislast
             }
 
             let htmlToSend = template(data);
