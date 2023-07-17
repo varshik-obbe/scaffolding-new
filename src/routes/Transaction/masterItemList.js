@@ -32,11 +32,11 @@ const upload = multer({
     fileFIlter:fileFilter
 });
 
-router.post('/addmasteritemlist',Authentication, upload.single("imagefile"), MasterItemListController.add_MasterItemTypeList);
+router.post('/addmasteritemlist',Authentication, upload.fields([ {name: "imagefile", maxCount: 1}, {name: "secondimage", maxCount: 1}]), MasterItemListController.add_MasterItemTypeList);
 //Authentication
 router.get('/getmasteritemlist', MasterItemListController.get_MasterItemTypeList);
 
-router.patch('/updatemasteritemlist',Authentication,upload.single("imagefile"), MasterItemListController.update_MasterItemTypeList);
+router.patch('/updatemasteritemlist',Authentication,upload.fields([ {name: "imagefile", maxCount: 1}, {name: "secondimage", maxCount: 1}]), MasterItemListController.update_MasterItemTypeList);
 
 router.delete('/deletemasteritemlist',Authentication, MasterItemListController.delete_MasterItemTypeList);
 

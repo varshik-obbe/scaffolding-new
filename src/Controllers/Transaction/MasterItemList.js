@@ -6,11 +6,17 @@ import Product from "../../models/product"
 
 exports.add_MasterItemTypeList = (req,res)=>{ 
     const data  = req.body;
-    let filepath = "";	    
-    if(req.file){	    
-        filepath = req.file.path;	    
+    let filepath = "";	   
+    let secondimage = ""; 
+    if(req.files){	    
+        filepath = req.files.imagefile[0].path;	    
     }else{	    
         filepath = "";	 
+    }
+    if(req.files.secondimage){	    
+        secondimage = req.files.secondimage[0].path;	    
+    }else{	    
+        secondimage = "";	 
     }
     const masterItemList = new MasterItemList({
         _id:mongoose.Types.ObjectId(),
@@ -23,6 +29,7 @@ exports.add_MasterItemTypeList = (req,res)=>{
         masteritemuom:data.masteritemuom,
         masteritemcostperunit:data.costperunit,
         masteritemimage:filepath,
+        masteritemsecondimage:secondimage,
         masteritemunitwt:data.masteritemunitwt,
         permeter:data.permeter,
         perfeet:data.perfeet,
@@ -58,6 +65,7 @@ exports.get_MasterItemTypeList = (req, res) =>{
                 masteritemuom:masteritemlist.masteritemuom,
                 masteritemcostperunit:parseFloat(masteritemlist.masteritemcostperunit),
                 masteritemimage:masteritemlist.masteritemimage,
+                masteritemsecondimage:masteritemlist.masteritemsecondimage,
                 masteritemunitwt:masteritemlist.masteritemunitwt,
                 permeter:masteritemlist.permeter,
                 perfeet:masteritemlist.perfeet,
@@ -74,11 +82,17 @@ exports.get_MasterItemTypeList = (req, res) =>{
 exports.update_MasterItemTypeList = (req,res) =>{
     
     const data  = req.body;
-    let filepath = "";	    
-    if(req.file){	    
-        filepath = req.file.path;	    
+    let filepath = "";	  
+    let secondimage = "";   
+    if(req.files){	    
+        filepath = req.files.imagefile[0].path;;	    
     }else{	    
         filepath = "";	 
+    }
+    if(req.files.secondimage){	    
+        secondimage = req.files.secondimage[0].path;	    
+    }else{	    
+        secondimage = "";	 
     }
   //  const data  = req.body;
     
@@ -86,6 +100,9 @@ exports.update_MasterItemTypeList = (req,res) =>{
     data.updatedby = req.currentUser[0]._id;
     if(filepath.trim().length >0) {
         data.masteritemimage=filepath;
+    }
+    if(secondimage.trim().length >0) {
+        data.masteritemsecondimage=secondimage;
     }
     MasterItemList.updateOne({_id: id}, {$set: data},{new:true}).exec().then((MasterItemTypeRecord)=>{
         res.status(200).json({success:{global:"Item Type is updated successfully"}})

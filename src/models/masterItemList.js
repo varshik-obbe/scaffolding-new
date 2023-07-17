@@ -12,6 +12,7 @@ const MasterItemListSchema = new mongoose.Schema({
     masteritemuom:{type:String,required:true,lowecase:true,index:true,ref: "Uom"},
     masteritemcostperunit:{type:String,sparse: true,default:null},
     masteritemimage:{type:String,lowecase:true,index:true,default:null},
+    masteritemsecondimage:{type:String,lowecase:true,index:true,default:null},
     createdby:{type:String,required:true,lowecase:true,index:true},
     updatedby:{type:String,lowecase:true,index:true,default:null},
     masteritemunitwt:{type:String,lowecase:true,index:true,default:null},
