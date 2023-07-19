@@ -5,6 +5,7 @@ const itemSchema = new mongoose.Schema({
     id:{type:String,required:true,ref:"masteritemlist"},
     itemname:{type:String,required:true},
     itemimage:{type:String},
+    itemsecondimage:{type:String},
     itemdescription:{type:String,required:true},
     itemshortdescription:{type:String},
     itemtype:{type:String,required:true,lowecase:true,ref:"masteritemtype"},
@@ -34,6 +35,7 @@ const quotationSchema = new mongoose.Schema({
     user_email:{type:String,default:null},
     
     tcharge:{type:String,default:null},
+    weighttons:{type:String,default:null},
     transportationgst: {type:String,default:null},
     ws:{type:String,default:null},
     loadingcharge:{type:String,default:null},
