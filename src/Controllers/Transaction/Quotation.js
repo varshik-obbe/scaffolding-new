@@ -298,6 +298,8 @@ exports.generate_pdf = (req, res) => {
 
             let ws = quotationdata[0].ws;
 
+            let address = quotationdata[0].customeraddress;
+
             let weightintons = quotationdata[0].weighttons;
 
             let loadingandhandling = quotationdata[0].loadingcharge;
@@ -320,6 +322,12 @@ exports.generate_pdf = (req, res) => {
 
             let template = Handlebars.compile(html);
 
+            let transportcharges;
+            let transportchargesGST;
+            transportcharges = quotationdata[0].tcharge ? quotationdata[0].tcharge : 0;
+            transportchargesGST = quotationdata[0].transportationgst ? quotationdata[0].transportationgst : 0;
+            let transportGSTAmount = parseFloat(transportcharges) * parseFloat(transportchargesGST) / 100;
+            transportGSTAmount = transportGSTAmount.toFixed(2);
             let pageoneislast = false;
             let pagetwoislast = false;
             let pagethreeislast = false;
@@ -511,7 +519,7 @@ exports.generate_pdf = (req, res) => {
                     });
                     pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal) + parseFloat(loadingandhandling);
                     pageonegst = parseFloat(pageonesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
-                    pageonegsttotal = pageonegst + pageonesubtotal;
+                    pageonegsttotal = pageonegst + pageonesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges);
                     pageonesubtotal = pageonesubtotal.toFixed(2);
                     pageonetotal = pageonetotal.toFixed(2);
                     pageonegst = pageonegst.toFixed(2);
@@ -550,7 +558,7 @@ exports.generate_pdf = (req, res) => {
                     let allpagesTotal = parseFloat(pagetwototal) + parseFloat(pageonetotal);
                     pagetwosubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
                     pagetwogst = parseFloat(pagetwosubtotal) * (parseFloat(quotationdata[0].tax) / 100);
-                    pagetwogsttotal = pagetwogst + pagetwosubtotal;
+                    pagetwogsttotal = pagetwogst + pagetwosubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges);
                     pagetwosubtotal = pagetwosubtotal.toFixed(2);
                     pagetwototal = pagetwototal.toFixed(2);
                     pagetwogst = pagetwogst.toFixed(2);
@@ -590,7 +598,7 @@ exports.generate_pdf = (req, res) => {
                     let allpagesTotal = parseFloat(pagethreetotal) + parseFloat(pagetwototal) + parseFloat(pageonetotal);
                     pagethreesubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
                     pagethreegst = parseFloat(pagethreesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
-                    pagethreegsttotal = pagethreegst + pagethreesubtotal;
+                    pagethreegsttotal = pagethreegst + pagethreesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges);
                     pagethreesubtotal = pagethreesubtotal.toFixed(2);
                     pagethreetotal = pagethreetotal.toFixed(2);
                     pagethreegst = pagethreegst.toFixed(2);
@@ -638,7 +646,11 @@ exports.generate_pdf = (req, res) => {
                 pagetwoislast: pagetwoislast,
                 requestdeliverydate: requestdeliverydate,
                 amountinwords: amountinwords,
-                pagethreeislast: pagethreeislast
+                pagethreeislast: pagethreeislast,
+                customeraddress: address,
+                transportGSTAmount: transportGSTAmount,
+                transportcharges: transportcharges,
+                transportchargesGST: transportchargesGST
             }
 
             let htmlToSend = template(data);
@@ -670,7 +682,7 @@ exports.generate_pdf = (req, res) => {
                 printBackground: true,
                 margin: {
                     top: '2px',
-                    bottom: '2px',
+                    bottom: '1px',
                     left: '2px',
                     right: '2px',
                 },

@@ -84,7 +84,7 @@ exports.update_MasterItemTypeList = (req,res) =>{
     const data  = req.body;
     let filepath = "";	  
     let secondimage = "";   
-    if(req.files){	    
+    if(req.files.imagefile){	    
         filepath = req.files.imagefile[0].path;;	    
     }else{	    
         filepath = "";	 
