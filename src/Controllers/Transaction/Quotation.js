@@ -325,8 +325,10 @@ exports.generate_pdf = (req, res) => {
             let transportcharges;
             let transportchargesGST;
             transportcharges = quotationdata[0].tcharge ? quotationdata[0].tcharge : 0;
+            let tcs  = quotationdata[0].tcs ? quotationdata[0].tcs : 0;
             transportchargesGST = quotationdata[0].transportationgst ? quotationdata[0].transportationgst : 0;
             let transportGSTAmount = parseFloat(transportcharges) * parseFloat(transportchargesGST) / 100;
+            let tcsamount;
             transportGSTAmount = transportGSTAmount.toFixed(2);
             let pageoneislast = false;
             let pagetwoislast = false;
@@ -388,26 +390,26 @@ exports.generate_pdf = (req, res) => {
 
                 quotationdata[0].addeditemlist.forEach((ele, i) => {
                     if (i == 0 && quotationdata[0].addeditemlist.length > 1) {
-                        if(ele.itemdescription.length < 850) {
+                        if(ele.itemdescription.length < 830) {
                             pageone.push(i);
                             pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemimage))
                             pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemsecondimage))
-                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 850) {
+                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 830) {
                                 pageone.push(i + 1);
                                 pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 1].itemimage))
                                 pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 1].itemsecondimage))
                                 if (quotationdata[0].addeditemlist.length > 2) {
-                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 850) {
+                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 830) {
                                         pageone.push(i + 2);
                                         pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 2].itemimage))
                                         pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 2].itemsecondimage))
                                         if (quotationdata[0].addeditemlist.length > 3) {
-                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 850) {
+                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 830) {
                                                 pageone.push(i + 3);
                                                 pageOneImgs.push(quotationdata[0].addeditemlist[i + 3].itemimage)
                                                 pageOneBigImgs.push(quotationdata[0].addeditemlist[i + 3].itemsecondimage)
                                                 if (quotationdata[0].addeditemlist.length > 4) {
-                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 850) {
+                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 830) {
                                                         pageone.push(i + 4);
                                                         pageOneImgs.push(quotationdata[0].addeditemlist[i + 4].itemimage)
                                                         pageOneBigImgs.push(quotationdata[0].addeditemlist[i + 4].itemsecondimage)
@@ -519,8 +521,10 @@ exports.generate_pdf = (req, res) => {
                     });
                     pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal) + parseFloat(loadingandhandling);
                     pageonegst = parseFloat(pageonesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
-                    pageonegsttotal = pageonegst + pageonesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges);
+                    tcsamount = parseFloat(pageonesubtotal) * parseFloat(tcs) / 100;
+                    pageonegsttotal = pageonegst + pageonesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
                     pageonesubtotal = pageonesubtotal.toFixed(2);
+                    tcsamount = tcsamount.toFixed(2);
                     pageonetotal = pageonetotal.toFixed(2);
                     pageonegst = pageonegst.toFixed(2);
                     pageonegsttotal = pageonegsttotal.toFixed(2);
@@ -558,8 +562,10 @@ exports.generate_pdf = (req, res) => {
                     let allpagesTotal = parseFloat(pagetwototal) + parseFloat(pageonetotal);
                     pagetwosubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
                     pagetwogst = parseFloat(pagetwosubtotal) * (parseFloat(quotationdata[0].tax) / 100);
-                    pagetwogsttotal = pagetwogst + pagetwosubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges);
+                    tcsamount = parseFloat(pagetwosubtotal) * parseFloat(tcs) / 100;
+                    pagetwogsttotal = pagetwogst + pagetwosubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
                     pagetwosubtotal = pagetwosubtotal.toFixed(2);
+                    tcsamount = tcsamount.toFixed(2);
                     pagetwototal = pagetwototal.toFixed(2);
                     pagetwogst = pagetwogst.toFixed(2);
                     pagetwogsttotal = pagetwogsttotal.toFixed(2);
@@ -598,9 +604,11 @@ exports.generate_pdf = (req, res) => {
                     let allpagesTotal = parseFloat(pagethreetotal) + parseFloat(pagetwototal) + parseFloat(pageonetotal);
                     pagethreesubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
                     pagethreegst = parseFloat(pagethreesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
-                    pagethreegsttotal = pagethreegst + pagethreesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges);
+                    tcsamount = parseFloat(pagethreesubtotal) * parseFloat(tcs) / 100;
+                    pagethreegsttotal = pagethreegst + pagethreesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
                     pagethreesubtotal = pagethreesubtotal.toFixed(2);
                     pagethreetotal = pagethreetotal.toFixed(2);
+                    tcsamount = tcsamount.toFixed(2);
                     pagethreegst = pagethreegst.toFixed(2);
                     pagethreegsttotal = pagethreegsttotal.toFixed(2);
                     pagetwoislast = false;
@@ -650,6 +658,8 @@ exports.generate_pdf = (req, res) => {
                 customeraddress: address,
                 transportGSTAmount: transportGSTAmount,
                 transportcharges: transportcharges,
+                tcs: tcs,
+                tcsamount: tcsamount,
                 transportchargesGST: transportchargesGST
             }
 
