@@ -333,6 +333,10 @@ exports.generate_pdf = (req, res) => {
             let pageoneislast = false;
             let pagetwoislast = false;
             let pagethreeislast = false;
+            let totalAllPages = 0;
+            let totalSubTotalPages = 0;
+            let totalGstAllPages = 0;
+            let totalGSTTotalAllpages = 0;
             let pageone = [];
             let pageTwo = [];
             let pageThree = [];
@@ -390,26 +394,26 @@ exports.generate_pdf = (req, res) => {
 
                 quotationdata[0].addeditemlist.forEach((ele, i) => {
                     if (i == 0 && quotationdata[0].addeditemlist.length > 1) {
-                        if(ele.itemdescription.length < 830) {
+                        if(ele.itemdescription.length < 1020) {
                             pageone.push(i);
                             pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemimage))
                             pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemsecondimage))
-                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 830) {
+                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length < 1020) {
                                 pageone.push(i + 1);
                                 pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 1].itemimage))
                                 pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 1].itemsecondimage))
                                 if (quotationdata[0].addeditemlist.length > 2) {
-                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 830) {
+                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length < 1020) {
                                         pageone.push(i + 2);
                                         pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 2].itemimage))
                                         pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i + 2].itemsecondimage))
                                         if (quotationdata[0].addeditemlist.length > 3) {
-                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 830) {
+                                            if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length < 1020) {
                                                 pageone.push(i + 3);
                                                 pageOneImgs.push(quotationdata[0].addeditemlist[i + 3].itemimage)
                                                 pageOneBigImgs.push(quotationdata[0].addeditemlist[i + 3].itemsecondimage)
                                                 if (quotationdata[0].addeditemlist.length > 4) {
-                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 830) {
+                                                    if (ele.itemdescription.length + quotationdata[0].addeditemlist[i + 1].itemdescription.length + quotationdata[0].addeditemlist[i + 2].itemdescription.length + quotationdata[0].addeditemlist[i + 3].itemdescription.length + quotationdata[0].addeditemlist[i + 4].itemdescription.length < 1020) {
                                                         pageone.push(i + 4);
                                                         pageOneImgs.push(quotationdata[0].addeditemlist[i + 4].itemimage)
                                                         pageOneBigImgs.push(quotationdata[0].addeditemlist[i + 4].itemsecondimage)
@@ -423,22 +427,22 @@ exports.generate_pdf = (req, res) => {
                         }
                         if (pageone.length > 0) {
                             if (quotationdata[0].addeditemlist.length > pageone.length) {
-                                if (quotationdata[0].addeditemlist[pageone.length].itemdescription.length < 1100) {
+                                if (quotationdata[0].addeditemlist[pageone.length].itemdescription.length < 1360) {
                                     pageTwo.push(pageone.length)
                                     pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length].itemimage)
                                     pageTwoBigImgs.push(quotationdata[0].addeditemlist[pageone.length].itemsecondimage)
                                 }
-                                if(quotationdata[0].addeditemlist.length > (pageone.length + 1) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length < 1100) {
+                                if(quotationdata[0].addeditemlist.length > (pageone.length + 1) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length < 1360) {
                                     pageTwo.push(pageone.length + 1)
                                     pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length + 1].itemimage)
                                     pageTwoBigImgs.push(quotationdata[0].addeditemlist[pageone.length + 1].itemsecondimage)
                                 }
-                                if(quotationdata[0].addeditemlist.length > (pageone.length + 2) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 2].itemdescription.length < 1100) {
+                                if(quotationdata[0].addeditemlist.length > (pageone.length + 2) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 2].itemdescription.length < 1360) {
                                     pageTwo.push(pageone.length + 2)
                                     pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length + 2].itemimage)
                                     pageTwoBigImgs.push(quotationdata[0].addeditemlist[pageone.length + 2].itemsecondimage)
                                 }
-                                if(quotationdata[0].addeditemlist.length > (pageone.length + 3) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 2].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 3].itemdescription.length < 1100) {
+                                if(quotationdata[0].addeditemlist.length > (pageone.length + 3) && quotationdata[0].addeditemlist[pageone.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 2].itemdescription.length + quotationdata[0].addeditemlist[pageone.length + 3].itemdescription.length < 1360) {
                                     pageTwo.push(pageone.length + 3)
                                     pageTwoImgs.push(quotationdata[0].addeditemlist[pageone.length + 3].itemimage)
                                     pageTwoBigImgs.push(quotationdata[0].addeditemlist[pageone.length + 3].itemsecondimage)
@@ -520,9 +524,17 @@ exports.generate_pdf = (req, res) => {
                         pageOneData.push(data);
                     });
                     pageonesubtotal = parseFloat(ws) + parseFloat(pageonetotal) + parseFloat(loadingandhandling);
+                    totalAllPages = pageonetotal;
+                    totalSubTotalPages = pageonesubtotal;
                     pageonegst = parseFloat(pageonesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    totalGstAllPages = pageonegst;
                     tcsamount = parseFloat(pageonesubtotal) * parseFloat(tcs) / 100;
                     pageonegsttotal = pageonegst + pageonesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    totalGSTTotalAllpages = pageonegsttotal;
+                    totalSubTotalPages = totalSubTotalPages.toFixed(2);
+                    totalGstAllPages = totalGstAllPages.toFixed(2);
+                    totalGSTTotalAllpages = totalGSTTotalAllpages.toFixed(2);
+                    totalAllPages = totalAllPages.toFixed(2);
                     pageonesubtotal = pageonesubtotal.toFixed(2);
                     tcsamount = tcsamount.toFixed(2);
                     pageonetotal = pageonetotal.toFixed(2);
@@ -560,10 +572,18 @@ exports.generate_pdf = (req, res) => {
                         pageTwoData.push(data);
                     });
                     let allpagesTotal = parseFloat(pagetwototal) + parseFloat(pageonetotal);
+                    totalAllPages = allpagesTotal;
                     pagetwosubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
+                    totalSubTotalPages = pagetwosubtotal;
                     pagetwogst = parseFloat(pagetwosubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    totalGstAllPages = pagetwogst;
                     tcsamount = parseFloat(pagetwosubtotal) * parseFloat(tcs) / 100;
                     pagetwogsttotal = pagetwogst + pagetwosubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    totalGSTTotalAllpages = pagetwogsttotal;
+                    totalSubTotalPages = totalSubTotalPages.toFixed(2);
+                    totalGstAllPages = totalGstAllPages.toFixed(2);
+                    totalGSTTotalAllpages = totalGSTTotalAllpages.toFixed(2);
+                    totalAllPages = totalAllPages.toFixed(2);
                     pagetwosubtotal = pagetwosubtotal.toFixed(2);
                     tcsamount = tcsamount.toFixed(2);
                     pagetwototal = pagetwototal.toFixed(2);
@@ -602,10 +622,18 @@ exports.generate_pdf = (req, res) => {
                         pageThreeData.push(data);
                     });
                     let allpagesTotal = parseFloat(pagethreetotal) + parseFloat(pagetwototal) + parseFloat(pageonetotal);
+                    totalAllPages = allpagesTotal;
                     pagethreesubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
+                    totalSubTotalPages = pagethreesubtotal;
                     pagethreegst = parseFloat(pagethreesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    totalGstAllPages = pagethreegst;
                     tcsamount = parseFloat(pagethreesubtotal) * parseFloat(tcs) / 100;
                     pagethreegsttotal = pagethreegst + pagethreesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    totalGSTTotalAllpages = pagethreegsttotal;
+                    totalSubTotalPages = totalSubTotalPages.toFixed(2);
+                    totalGstAllPages = totalGstAllPages.toFixed(2);
+                    totalGSTTotalAllpages = totalGSTTotalAllpages.toFixed(2);
+                    totalAllPages = totalAllPages.toFixed(2);
                     pagethreesubtotal = pagethreesubtotal.toFixed(2);
                     pagethreetotal = pagethreetotal.toFixed(2);
                     tcsamount = tcsamount.toFixed(2);
@@ -660,7 +688,11 @@ exports.generate_pdf = (req, res) => {
                 transportcharges: transportcharges,
                 tcs: tcs,
                 tcsamount: tcsamount,
-                transportchargesGST: transportchargesGST
+                transportchargesGST: transportchargesGST,
+                totalSubTotalPages: totalSubTotalPages,
+                totalGstAllPages: totalGstAllPages,
+                totalGSTTotalAllpages: totalGSTTotalAllpages,
+                totalAllPages: totalAllPages
             }
 
             let htmlToSend = template(data);
