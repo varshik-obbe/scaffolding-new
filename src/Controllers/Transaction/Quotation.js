@@ -476,7 +476,8 @@ exports.generate_pdf = (req, res) => {
                     }
                     else if((i == 0 && quotationdata[0].addeditemlist.length == 1)) {
                         pageone.push(i);
-                        pageOneImgs.push(quotationdata[0].addeditemlist[i].itemimage)
+                        pageOneImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemimage))
+                        pageOneBigImgs.push(encodeURI(quotationdata[0].addeditemlist[i].itemsecondimage))
                     }
                 });
 
