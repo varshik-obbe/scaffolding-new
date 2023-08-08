@@ -51,6 +51,17 @@ exports.get_SingleProduct = (req,res)=>{
 
 }
 
+
+exports.update_product = (req,res)=>{
+    const id = req.query.id;
+    const { data } = req.body;
+    Product.updateOne({_id: id}, {$set: data}).exec().then((MaterialRecord)=>{
+        res.status(200).json({success:{global:"Product details is updated successfully"}})
+    }).catch(()=>{
+        res.status(400).json({error:{global:"something went wrong"}});
+    })
+}
+
 exports.get_Product = (req,res)=>{
 
     // Product.remove({},function (err, founddata) {

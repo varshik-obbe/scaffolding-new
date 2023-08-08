@@ -9,5 +9,6 @@ router.post('/addproduct',Authentication, ProductController.add_Product);
 
 router.get('/getproducts', ProductController.get_Product);
 router.get('/getproduct/:id', Authentication, ProductController.get_SingleProduct);
+router.patch("/updateproduct",Authentication,ProductController.update_product);
 
 export default router;
