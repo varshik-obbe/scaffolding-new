@@ -27,6 +27,7 @@ const productionSchema = new mongoose.Schema(
     },
     item: { type: String, lowercase: true },
     date: { type: String, lowecase: true },
+    productiondate: { type: String, lowecase: true },
     products: [product],
     transactionHistrory : {type : Array}
   },

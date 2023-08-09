@@ -13,6 +13,7 @@ exports.add_Production = (req, res) => {
     item: data.item,
     quantity: data.quantity,
     date: data.date,
+    productiondate: data.productiondate,
     subAssembly: data.subAssembly,
     products: data.products,
     transactionHistrory: []
@@ -49,6 +50,7 @@ exports.get_Production = (req, res) => {
           item: data.item,
           quantity: data.quantity,
           date: data.date,
+          productiondate: data.productiondate,
           subAssembly: data.subAssembly,
           products: data.products,
           transactionHistrory: data.transactionHistrory
