@@ -171,6 +171,20 @@ exports.update_quotation = (req, res) => {
     })
 }
 
+exports.getquotno = (req,res) => {
+    let quoteno = 0;
+    Quotation.find()
+    .exec()
+    .then((quotationdata) => {
+        quoteno = parseInt(quotationdata.length) + 17816;
+        res.status(200).json({ quoteno: quoteno });
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json({ error: { global: "something went wrong" } });
+    })
+}
+
 function convertTZ(date, tzString) {
     return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", { timeZone: tzString }));
 }

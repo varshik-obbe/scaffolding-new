@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post('/addquotation',Authentication, QuotationController.add_Quotation);
 
+router.post('/getquotno',Authentication, QuotationController.getquotno);
+
 router.get('/getquotation',Authentication, QuotationController.get_Quotation);
 
 router.get('/getsinglequotation/:id',Authentication, QuotationController.get_singleQuotation);
