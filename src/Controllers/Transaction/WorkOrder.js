@@ -74,6 +74,20 @@ exports.get_Order = (req, res) => {
     });
 };
 
+exports.getorderno = (req,res) => {
+  let orderno = 0;
+  WorkOrder.find()
+  .exec()
+  .then((orderdata) => {
+      orderno = parseInt(orderdata.length) + 16;
+      res.status(200).json({ orderno: orderno });
+  })
+  .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: { global: "something went wrong" } });
+  })
+}
+
 
 exports.get_SingleWorkOrder = (req, res) => {
 

@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post('/addorder', Authentication, OrderController.add_Order);
 
+router.get('/getorderno', Authentication, OrderController.getorderno);
+
 router.get('/getorder', Authentication, OrderController.get_Order);
 
 router.get('/getsingleworkorder/:id', Authentication, OrderController.get_SingleWorkOrder);
