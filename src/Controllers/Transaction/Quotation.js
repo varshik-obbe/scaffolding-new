@@ -162,9 +162,12 @@ exports.update_quotation = (req, res) => {
 
             founddata.save(function (err, updateddata) {
                 if (err)
+                {
                     res.status(500).send(err);
-
-                res.status(200).json({ success: { global: "Quotation is updated successfully" } })
+                }
+                else {
+                    res.status(200).json({ success: { global: "Quotation is updated successfully" } })
+                }
             })
 
         }
