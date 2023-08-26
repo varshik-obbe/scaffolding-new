@@ -347,6 +347,7 @@ exports.generate_pdf = (req, res) => {
             let pageoneislast = false;
             let pagetwoislast = false;
             let pagethreeislast = false;
+            let pagefourislast = false;
             let totalAllPages = 0;
             let totalSubTotalPages = 0;
             let totalGstAllPages = 0;
@@ -354,6 +355,7 @@ exports.generate_pdf = (req, res) => {
             let pageone = [];
             let pageTwo = [];
             let pageThree = [];
+            let pageFour = [];
             let pageOneData = [];
             let pageOneImgs = [];
             let pageOneBigImgs = [];
@@ -361,23 +363,30 @@ exports.generate_pdf = (req, res) => {
             let pageTwoBigImgs = [];
             let pageThreeImgs = [];
             let pageThreeBigImgs = [];
+            let pageFourImgs = [];
+            let pageFourBigImgs = [];
             let pageoneRowspan = 0;
             let pagetwoRowspan = 0;
             let pagethreeRowspan = 0;
             let pageonetotal = 0;
             let pagetwototal = 0;
             let pagethreetotal = 0;
+            let pagefourtotal = 0;
             let pageonesubtotal = 0;
             let pagetwosubtotal = 0;
             let pagethreesubtotal = 0;
+            let pagefoursubtotal = 0;
             let pageonegst = 0;
             let pagetwogst = 0;
             let pagethreegst = 0;
+            let pagefourgst = 0;
             let pageonegsttotal = 0;
             let pagetwogsttotal = 0;
             let pagethreegsttotal = 0;
+            let pagefourgsttotal = 0;
             let pageTwoData = [];
             let pageThreeData = [];
+            let pageFourData = [];
             let totalLength = 0;
             let noOfPages = 1;
             if (quotationdata[0].addeditemlist.length > 0) {
@@ -484,6 +493,30 @@ exports.generate_pdf = (req, res) => {
                                     pageThree.push(pageone.length  + pageTwo.length + 3)
                                     pageThreeImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 3].itemimage)
                                     pageThreeBigImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + 3].itemsecondimage)
+                                }
+                            }
+                        }
+                        if(pageThree.length > 0) {
+                            if (quotationdata[0].addeditemlist.length > (pageone.length + pageTwo.length + pageThree.length)) {
+                                if (quotationdata[0].addeditemlist[pageone.length + pageTwo.length + pageThree.length].itemdescription.length < 1100) {
+                                    pageFour.push(pageone.length  + pageTwo.length + pageThree.length)
+                                    pageFourImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length].itemimage)
+                                    pageFourBigImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length].itemsecondimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length  + pageTwo.length + pageThree.length + 1) && quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 1].itemdescription.length < 1100) {
+                                    pageFour.push(pageone.length  + pageTwo.length + pageThree.length + 1)
+                                    pageFourImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 1].itemimage)
+                                    pageFourBigImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 1].itemsecondimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length  + pageTwo.length + pageThree.length + 2) && quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 2].itemdescription.length < 1100) {
+                                    pageFour.push(pageone.length  + pageTwo.length + pageThree.length + 2)
+                                    pageFourImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 2].itemimage)
+                                    pageFourBigImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 2].itemsecondimage)
+                                }
+                                if(quotationdata[0].addeditemlist.length > (pageone.length  + pageTwo.length + pageThree.length + 3) && quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 1].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 2].itemdescription.length + quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 3].itemdescription.length < 1100) {
+                                    pageFour.push(pageone.length  + pageTwo.length + pageThree.length + 3)
+                                    pageFourImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 3].itemimage)
+                                    pageFourBigImgs.push(quotationdata[0].addeditemlist[pageone.length  + pageTwo.length + pageThree.length + 3].itemsecondimage)
                                 }
                             }
                         }
@@ -657,7 +690,57 @@ exports.generate_pdf = (req, res) => {
                     pagetwoislast = false;
                     pagethreeislast = true;
                     RsPaise(pagethreegsttotal);
-                }                
+                }
+                if (pageFour.length > 0) {
+                    pageFour.forEach((element, index) => {
+                        let data =  {
+                            id: quotationdata[0].addeditemlist[element].id,
+                            itemname: quotationdata[0].addeditemlist[element].itemname,
+                            itemimage: quotationdata[0].addeditemlist[element].itemimage,
+                            itemdescription: quotationdata[0].addeditemlist[element].itemdescription,
+                            itemshortdescription: quotationdata[0].addeditemlist[element].itemshortdescription,
+                            itemtype: quotationdata[0].addeditemlist[element].itemtype,
+                            itemuom: quotationdata[0].addeditemlist[element].itemuom,
+                            costperunit: quotationdata[0].addeditemlist[element].costperunit,
+                            itemdiscount: quotationdata[0].addeditemlist[element].itemdiscount,
+                            itemdiscountamount: quotationdata[0].addeditemlist[element].itemdiscountamount,
+                            quantity: quotationdata[0].addeditemlist[element].quantity,
+                            totalcost: quotationdata[0].addeditemlist[element].totalcost
+                        }
+                        pagefourtotal  = pagefourtotal + parseFloat(quotationdata[0].addeditemlist[element].totalcost);
+                        if(pageFour.length > 2) {
+                            data["pageFourImgs"] = pageFourImgs[index];
+                            data["pageFourHeight"] = 60;
+                        }
+                        else {
+                            data["pageFourBigImgs"] = pageFourBigImgs[index];
+                            data["pageFourHeight"] = 120;
+                        }
+                        data["pageFourRowspan"] = pageFour.length;
+                        pageFourData.push(data);
+                    });
+                    let allpagesTotal = parseFloat(pagefourtotal) + parseFloat(pagethreetotal) + parseFloat(pagetwototal) + parseFloat(pageonetotal);
+                    totalAllPages = allpagesTotal;
+                    pagefoursubtotal = parseFloat(ws) + parseFloat(allpagesTotal) + parseFloat(loadingandhandling);
+                    totalSubTotalPages = pagefoursubtotal;
+                    pagefourgst = parseFloat(pagefoursubtotal) * (parseFloat(quotationdata[0].tax) / 100);
+                    totalGstAllPages = pagefourgst;
+                    tcsamount = parseFloat(pagefoursubtotal) * parseFloat(tcs) / 100;
+                    pagefourgsttotal = pagefourgst + pagefoursubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    totalGSTTotalAllpages = pagefourgsttotal;
+                    totalSubTotalPages = totalSubTotalPages.toFixed(2);
+                    totalGstAllPages = totalGstAllPages.toFixed(2);
+                    totalGSTTotalAllpages = totalGSTTotalAllpages.toFixed(2);
+                    totalAllPages = totalAllPages.toFixed(2);
+                    pagefoursubtotal = pagefoursubtotal.toFixed(2);
+                    pagefourtotal = pagefourtotal.toFixed(2);
+                    tcsamount = tcsamount.toFixed(2);
+                    pagefourgst = pagefourgst.toFixed(2);
+                    pagefourgsttotal = pagefourgsttotal.toFixed(2);
+                    pagethreeislast = false;
+                    pagefourislast = true;
+                    RsPaise(pagefourgsttotal);
+                }                                
             }
             else {
                 res.status(500).json({ error: { global: "something went wrong", err } });
@@ -673,7 +756,9 @@ exports.generate_pdf = (req, res) => {
                 pageTwoData: pageTwoData,
                 pageTwoImgs: pageTwoImgs,
                 pageThreeData: pageThreeData,
-                pageThreeImgs: pageThreeImgs,                
+                pageThreeImgs: pageThreeImgs,
+                pageFourData: pageFourData,                
+                pageFourImgs: pageFourImgs,                
                 base_url: base_url,
                 customername: customername,
                 customernumber: customernumber,
@@ -689,15 +774,20 @@ exports.generate_pdf = (req, res) => {
                 pagethreetotal: pagethreetotal,
                 pagethreegst: pagethreegst,
                 pagethreegsttotal: pagethreegsttotal,
+                pagefourtotal: pagefourtotal,
+                pagefourgst: pagefourgst,
+                pagefourgsttotal: pagefourgsttotal,
                 pageonesubtotal: pageonesubtotal,
                 pagetwosubtotal: pagetwosubtotal,
                 pagethreesubtotal: pagethreesubtotal,
+                pagefoursubtotal: pagefoursubtotal,
                 loadingandhandling: loadingandhandling,
                 pageoneislast: pageoneislast,
                 pagetwoislast: pagetwoislast,
                 requestdeliverydate: requestdeliverydate,
                 amountinwords: amountinwords,
                 pagethreeislast: pagethreeislast,
+                pagefourislast: pagefourislast,
                 customeraddress: address,
                 transportGSTAmount: transportGSTAmount,
                 transportcharges: transportcharges,
