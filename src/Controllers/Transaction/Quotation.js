@@ -323,6 +323,8 @@ exports.generate_pdf = (req, res) => {
 
             let gst = quotationdata[0].tax;
 
+            let scheduledays = quotationdata[0].scheduledays ? quotationdata[0].scheduledays + ' days' : '8-10 days';
+
 
             const readFile = promisify(fs.readFile);
 
@@ -795,6 +797,7 @@ exports.generate_pdf = (req, res) => {
                 transportGSTAmount: transportGSTAmount,
                 transportcharges: transportcharges,
                 tcs: tcs,
+                scheduledays: scheduledays,
                 tcsamount: tcsamount,
                 transportchargesGST: transportchargesGST,
                 totalSubTotalPages: totalSubTotalPages,
