@@ -309,6 +309,8 @@ exports.generate_pdf = (req, res) => {
                 quotationdata[0].date
               ).format("DD MMM, YYYY");
 
+            let customergst = quotationdata[0].customergstnumber ? quotationdata[0].customergstnumber : "";
+
             let customername = quotationdata[0].customername;
 
             let customernumber = quotationdata[0].customercontactnumber;
@@ -797,6 +799,7 @@ exports.generate_pdf = (req, res) => {
                 transportGSTAmount: transportGSTAmount,
                 transportcharges: transportcharges,
                 tcs: tcs,
+                customergst: customergst,
                 scheduledays: scheduledays,
                 tcsamount: tcsamount,
                 transportchargesGST: transportchargesGST,
