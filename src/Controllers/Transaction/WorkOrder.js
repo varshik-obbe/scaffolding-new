@@ -79,7 +79,7 @@ exports.getorderno = (req,res) => {
   WorkOrder.find()
   .exec()
   .then((orderdata) => {
-      orderno = parseInt(orderdata.length) + 16;
+      orderno = parseInt(orderdata.length) + 1016;
       res.status(200).json({ orderno: orderno });
   })
   .catch((err) => {
