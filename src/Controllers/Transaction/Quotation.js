@@ -26,6 +26,7 @@ exports.add_Quotation = (req, res) => {
         date: data.date,
         tax: data.gst,
         tcs: data.tcs,
+        tcsamount: data.tcsamount,
 
         tcharge: data.tcharge,
 
@@ -67,6 +68,7 @@ exports.get_singleQuotation = (req, res) => {
                     scheduledays: quotation.scheduledays,
                     tax: quotation.tax,
                     tcs: quotation.tcs,
+                    tcsamount: quotation.tcsamount,
                     tcharge: quotation.tcharge,
                     user_email: quotation.user_email,
                     transportationgst: quotation.transportationgst,
@@ -110,6 +112,7 @@ exports.get_Quotation = (req, res) => {
                     scheduledays: quotation.scheduledays,
                     tax: quotation.tax,
                     tcs: quotation.tcs,
+                    tcsamount: quotation.tcsamount,
                     user_email: quotation.user_email,
                     tcharge: quotation.tcharge,
                     transportationgst: quotation.transportationgst,
@@ -148,6 +151,7 @@ exports.update_quotation = (req, res) => {
                 founddata.scheduledays = req.body.data.scheduledays,
                 founddata.tax = req.body.data.gst,
                 founddata.tcs = req.body.data.tcs,
+                founddata.tcsamount =  req.body.data.tcsamount,
                 founddata.subject = req.body.data.subject,
                 founddata.user_email = req.body.data.user_email,
                 founddata.totalvalue = req.body.data.totalvalue,
@@ -349,7 +353,7 @@ exports.generate_pdf = (req, res) => {
             let tcs  = quotationdata[0].tcs ? quotationdata[0].tcs : 0;
             transportchargesGST = quotationdata[0].transportationgst ? quotationdata[0].transportationgst : 0;
             let transportGSTAmount = parseFloat(transportcharges) * parseFloat(transportchargesGST) / 100;
-            let tcsamount;
+            let tcsamount  = quotationdata[0].tcsamount ? quotationdata[0].tcsamount : 0;
             transportGSTAmount = transportGSTAmount.toFixed(2);
             let pageoneislast = false;
             let pagetwoislast = false;
@@ -583,8 +587,7 @@ exports.generate_pdf = (req, res) => {
                     totalSubTotalPages = pageonesubtotal;
                     pageonegst = parseFloat(pageonesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     totalGstAllPages = pageonegst;
-                    tcsamount = parseFloat(pageonesubtotal) * parseFloat(tcs) / 100;
-                    pageonegsttotal = pageonegst + pageonesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    pageonegsttotal = pageonegst + pageonesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + parseFloat(tcsamount);
                     totalGSTTotalAllpages = pageonegsttotal;
                     totalSubTotalPages = totalSubTotalPages.toFixed(2);
                     totalGstAllPages = totalGstAllPages.toFixed(2);
@@ -632,8 +635,7 @@ exports.generate_pdf = (req, res) => {
                     totalSubTotalPages = pagetwosubtotal;
                     pagetwogst = parseFloat(pagetwosubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     totalGstAllPages = pagetwogst;
-                    tcsamount = parseFloat(pagetwosubtotal) * parseFloat(tcs) / 100;
-                    pagetwogsttotal = pagetwogst + pagetwosubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    pagetwogsttotal = pagetwogst + pagetwosubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + parseFloat(tcsamount);
                     totalGSTTotalAllpages = pagetwogsttotal;
                     totalSubTotalPages = totalSubTotalPages.toFixed(2);
                     totalGstAllPages = totalGstAllPages.toFixed(2);
@@ -682,8 +684,7 @@ exports.generate_pdf = (req, res) => {
                     totalSubTotalPages = pagethreesubtotal;
                     pagethreegst = parseFloat(pagethreesubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     totalGstAllPages = pagethreegst;
-                    tcsamount = parseFloat(pagethreesubtotal) * parseFloat(tcs) / 100;
-                    pagethreegsttotal = pagethreegst + pagethreesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    pagethreegsttotal = pagethreegst + pagethreesubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + parseFloat(tcsamount);
                     totalGSTTotalAllpages = pagethreegsttotal;
                     totalSubTotalPages = totalSubTotalPages.toFixed(2);
                     totalGstAllPages = totalGstAllPages.toFixed(2);
@@ -732,8 +733,7 @@ exports.generate_pdf = (req, res) => {
                     totalSubTotalPages = pagefoursubtotal;
                     pagefourgst = parseFloat(pagefoursubtotal) * (parseFloat(quotationdata[0].tax) / 100);
                     totalGstAllPages = pagefourgst;
-                    tcsamount = parseFloat(pagefoursubtotal) * parseFloat(tcs) / 100;
-                    pagefourgsttotal = pagefourgst + pagefoursubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + tcsamount;
+                    pagefourgsttotal = pagefourgst + pagefoursubtotal + parseFloat(transportGSTAmount) + parseFloat(transportcharges) + parseFloat(tcsamount);
                     totalGSTTotalAllpages = pagefourgsttotal;
                     totalSubTotalPages = totalSubTotalPages.toFixed(2);
                     totalGstAllPages = totalGstAllPages.toFixed(2);

@@ -25,6 +25,9 @@ exports.add_PurchaseOrder = (req,res)=>{
         suppliercontactid:data.suppliercontactid,
         currencyid:data.currency,
         referenceno:data.refno,
+        transportationcharge:data.transportationcharge,
+        weighttons:data.weighttons,
+        loadingcharge:data.loadingcharge,
         quotationno:data.quotationno,
         ponumber:data.ponumber,
         cgst:data.cgst,
@@ -154,6 +157,9 @@ exports.get_SinglePurchaseOrder = (req,res)=>{
                             subject:data.subject,
                             totalvalue:data.totalvalue,
                             gst:data.tax,
+                            transportationcharge:data.transportationcharge,
+                            weighttons:data.weighttons,
+                            loadingcharge:data.loadingcharge,
                             created_date: data.createdAt,
 
                             cgst:data.cgst && data.cgst !='' ? data.cgst : '',
@@ -202,6 +208,9 @@ exports.get_PurchaseOrder = (req,res)=>{
                             requestdeliverydate:data.requestdeliverydate,
                             subject:data.subject,
                             totalvalue:data.totalvalue,
+                            transportationcharge:data.transportationcharge,
+                            weighttons:data.weighttons,
+                            loadingcharge:data.loadingcharge,
                             created_at: data.createdAt,
                             gst:data.tax,
                             cgst:data.cgst && data.cgst !='' ? data.cgst : '',
@@ -251,6 +260,9 @@ exports.update_po = (req,res) =>{
                 founddata.igst = req.body.data.igst;
 
                 founddata.totalvalue = req.body.data.totalvalue;
+                founddata.transportationcharge = req.body.data.transportationcharge,
+                founddata.weighttons = req.body.data.weighttons,
+                founddata.loadingcharge = req.body.data.loadingcharge,
                 founddata.tax = req.body.data.gst;
                 founddata.addeditemlist = req.body.data.AddedIteminfo;
                 founddata.podate = req.body.data.podate;

@@ -44,6 +44,7 @@ exports.add_ProformaInvoice = (req, res) => {
     sgst: data.sgst,
     igst: data.igst,
     tcs: data.tcs,
+    tcsamount: data.tcsamount,
     total: data.total,
     grandtotal: data.grandtotal,
     deliverychallandata: data.deliverychallandata,
@@ -111,6 +112,7 @@ exports.get_ProformaInvoice = (req, res) => {
           sgst: quotation.sgst,
           igst: quotation.igst,
           tcs: quotation.tcs,
+          tcsamount: quotation.tcsamount,
           total: quotation.total,
           remarks:quotation.remarks,
           user_email:quotation.user_email,
@@ -192,6 +194,7 @@ exports.update_proformainvoice = (req,res) =>{
           founddata.cgst = req.body.data.cgst;
           founddata.sgst = req.body.data.sgst;
           founddata.tcs = req.body.data.tcs,
+          founddata.tcsamount = req.body.data.tcsamount,
 
           founddata.igst = req.body.data.igst;
           founddata.total = req.body.data.total;
@@ -252,6 +255,7 @@ exports.get_SingleProformaInvoice = (req, res) => {
           sgst: quotation.sgst,
           igst: quotation.igst,
           tcs: quotation.tcs,
+          tcsamount: quotation.tcsamount,
           total: quotation.total,
           remarks:quotation.remarks,
           user_email:quotation.user_email,

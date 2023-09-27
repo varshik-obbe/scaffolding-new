@@ -48,6 +48,7 @@ const proformainvoiceSchema = new mongoose.Schema({
     sgst:{type:String,lowecase:true, default:null},
     igst:{type:String,lowecase:true, default:null},
     tcs:{type:String,lowecase:true, default:null},
+    tcsamount:{type:String, default:null},
     total:{type:String,lowecase:true, default:null},
     grandtotal:{type:String,lowecase:true, default:null},
     deliverychallandata: {type:String,default:null},

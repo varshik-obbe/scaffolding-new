@@ -41,6 +41,7 @@ exports.add_Invoice = (req, res) => {
     igst: data.igst,
     total: data.total,
     tcs: data.tcs,
+    tcsamount: data.tcsamount,
     grandtotal: data.grandtotal,
     deliverychallandata: data.deliverychallandata,
     quotationnumber: data.quotationnumber,
@@ -107,6 +108,7 @@ exports.get_Invoice = (req, res) => {
           sgst: quotation.sgst,
           igst: quotation.igst,
           tcs: quotation.tcs,
+          tcsamount: quotation.tcsamount,
           total: quotation.total,
           remarks:quotation.remarks,
           goodsDescription:quotation.goodsDescription,
@@ -186,6 +188,7 @@ exports.update_invoice = (req,res) =>{
           founddata.cgst = req.body.data.cgst;
           founddata.sgst = req.body.data.sgst;
           founddata.tcs = req.body.data.tcs,
+          founddata.tcsamount = req.body.data.tcsamount,
 
           founddata.igst = req.body.data.igst;
           founddata.total = req.body.data.total;
@@ -252,6 +255,7 @@ exports.get_SingleInvoice = (req, res) => {
           sgst: quotation.sgst,
           igst: quotation.igst,
           tcs: quotation.tcs,
+          tcsamount: quotation.tcsamount,
           total: quotation.total,
           remarks:quotation.remarks,
           goodsDescription:quotation.goodsDescription,
