@@ -154,6 +154,7 @@ exports.get_SinglePurchaseOrder = (req,res)=>{
                             subject:data.subject,
                             totalvalue:data.totalvalue,
                             gst:data.tax,
+                            created_date: data.createdAt,
 
                             cgst:data.cgst && data.cgst !='' ? data.cgst : '',
                             sgst:data.sgst && data.sgst !='' ? data.sgst : '',
@@ -201,6 +202,7 @@ exports.get_PurchaseOrder = (req,res)=>{
                             requestdeliverydate:data.requestdeliverydate,
                             subject:data.subject,
                             totalvalue:data.totalvalue,
+                            created_at: data.createdAt,
                             gst:data.tax,
                             cgst:data.cgst && data.cgst !='' ? data.cgst : '',
                             sgst:data.sgst && data.sgst !='' ? data.sgst : '',
