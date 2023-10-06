@@ -594,7 +594,6 @@ exports.generate_pdf = (req, res) => {
                     totalGSTTotalAllpages = totalGSTTotalAllpages.toFixed(2);
                     totalAllPages = totalAllPages.toFixed(2);
                     pageonesubtotal = pageonesubtotal.toFixed(2);
-                    tcsamount = tcsamount.toFixed(2);
                     pageonetotal = pageonetotal.toFixed(2);
                     pageonegst = pageonegst.toFixed(2);
                     pageonegsttotal = pageonegsttotal.toFixed(2);
@@ -642,7 +641,6 @@ exports.generate_pdf = (req, res) => {
                     totalGSTTotalAllpages = totalGSTTotalAllpages.toFixed(2);
                     totalAllPages = totalAllPages.toFixed(2);
                     pagetwosubtotal = pagetwosubtotal.toFixed(2);
-                    tcsamount = tcsamount.toFixed(2);
                     pagetwototal = pagetwototal.toFixed(2);
                     pagetwogst = pagetwogst.toFixed(2);
                     pagetwogsttotal = pagetwogsttotal.toFixed(2);
@@ -692,7 +690,6 @@ exports.generate_pdf = (req, res) => {
                     totalAllPages = totalAllPages.toFixed(2);
                     pagethreesubtotal = pagethreesubtotal.toFixed(2);
                     pagethreetotal = pagethreetotal.toFixed(2);
-                    tcsamount = tcsamount.toFixed(2);
                     pagethreegst = pagethreegst.toFixed(2);
                     pagethreegsttotal = pagethreegsttotal.toFixed(2);
                     pagetwoislast = false;
@@ -741,7 +738,6 @@ exports.generate_pdf = (req, res) => {
                     totalAllPages = totalAllPages.toFixed(2);
                     pagefoursubtotal = pagefoursubtotal.toFixed(2);
                     pagefourtotal = pagefourtotal.toFixed(2);
-                    tcsamount = tcsamount.toFixed(2);
                     pagefourgst = pagefourgst.toFixed(2);
                     pagefourgsttotal = pagefourgsttotal.toFixed(2);
                     pagethreeislast = false;
@@ -752,6 +748,10 @@ exports.generate_pdf = (req, res) => {
             else {
                 res.status(500).json({ error: { global: "something went wrong", err } });
                 return;
+            }
+
+            if(tcsamount && tcsamount != 0 && tcsamount != "") {
+                tcsamount = tcsamount.toFixed(2);
             }
 
             let base_url = process.env.BASE_URL+"uploads/";
