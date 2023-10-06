@@ -752,7 +752,7 @@ exports.generate_pdf = (req, res) => {
 
             if(tcsamount && tcsamount != 0 && tcsamount != "") {
                 console.log("tcsamount is", tcsamount)
-                tcsamount = tcsamount.toFixed(2);
+                tcsamount = (parseFloat(tcsamount)).toFixed(2);
             }
 
             let base_url = process.env.BASE_URL+"uploads/";
